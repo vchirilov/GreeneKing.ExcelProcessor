@@ -1,0 +1,30 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<style>
+    #centerDiv {
+        width: 800px;
+        border-radius: 5px;
+        background: #ccc;
+        padding: 10px;
+        height: 200px;
+        position: absolute;
+        margin-top: -200px;
+        margin-left: -400px;
+        top: 50%;
+        left: 50%;
+    }
+
+</style>
+
+<div id="centerDiv" class="text-center">
+    <h1 class="display-4">Greene King File Uploader</h1>
+
+    <form method="post" asp-controller="Home" asp-action="UploadFile" enctype="multipart/form-data">
+        <br />
+        <input type="file" name="file" />
+        <button type="submit">Upload</button>
+    </form>
+
+</div>
