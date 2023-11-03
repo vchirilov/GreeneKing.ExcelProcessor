@@ -1,3 +1,5 @@
+using Presentation.Services;
+
 namespace Presentation
 {
     public class Program
@@ -8,6 +10,7 @@ namespace Presentation
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddSingleton<IExcelProcessorService, ExcelProcessorService>();
 
             var app = builder.Build();
 

@@ -2,29 +2,33 @@
     ViewData["Title"] = "Home Page";
 }
 
-<style>
-    #centerDiv {
-        width: 800px;
-        border-radius: 5px;
-        background: #ccc;
-        padding: 10px;
-        height: 200px;
-        position: absolute;
-        margin-top: -200px;
-        margin-left: -400px;
-        top: 50%;
-        left: 50%;
-    }
+@model FileUploadModel
 
-</style>
 
-<div id="centerDiv" class="text-center">
-    <h1 class="display-4">Greene King File Uploader</h1>
+<h1 style="justify-content:center; display: flex;">Greene King SSIS Package Uploader</h1>
 
-    <form method="post" asp-controller="Home" asp-action="UploadFile" enctype="multipart/form-data">
-        <br />
-        <input type="file" name="file" />
-        <button type="submit">Upload</button>
-    </form>
 
-</div>
+
+<form form method="post" asp-controller="Home" asp-action="UploadFiles" class=" mt-5" enctype="multipart/form-data">
+    <div class="form-group row">
+        <label asp-for="PackageName" class="col-sm-2 col-form-label"> Package Name</label>
+        <div class="col-sm-10">
+            <input asp-for="PackageName" class="form-control" placeholder="Name" />
+            <span asp-validation-for="PackageName" class="text-danger"></span>
+        </div>
+    </div>
+
+    <br>
+    <div class="form-group row">
+        <label asp-for="UploadedFiles" class="col-sm-2 col-form-label">Upload Files</label>
+        <div class="col-sm-10">
+            <input asp-for="UploadedFiles" class="form-control custom-file-input" multiple/>
+        </div>
+    </div>
+    <br>
+    <div class="form-group row">
+        <div class="col-sm-10">
+            <button type="submit" class="btn btn-primary">Upload package</button>
+        </div>
+    </div>
+</form>

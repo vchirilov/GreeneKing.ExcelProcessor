@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Presentation.Models;
+using Presentation.Services;
 using System.Diagnostics;
 
 namespace Presentation.Controllers
@@ -7,10 +8,12 @@ namespace Presentation.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IExcelProcessorService _excelProcessorService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IExcelProcessorService excelProcessorService)
         {
             _logger = logger;
+            _excelProcessorService = excelProcessorService;
         }
 
         public IActionResult Index()
@@ -31,32 +34,30 @@ namespace Presentation.Controllers
 
 
 
-        public async Task<IActionResult> UploadFile(IFormFile file)
+        public async Task<IActionResult> UploadFiles(FileUploadModel model)
         {
-            if (file == null || file.Length == 0)
+
+            if (model is null || string.IsNullOrWhiteSpace(model.PackageName) || model?.UploadedFiles?.Count == 0)
             {
-                // Handle the case where no file was selected
                 return View();
             }
 
             // Check the file extension (Excel files typically have .xlsx or .xls extensions)
-            if (!file.FileName.EndsWith(".xlsx") && !file.FileName.EndsWith(".xls"))
+            if (model?.UploadedFiles is not null && !model.UploadedFiles.Any(file => file.FileName.EndsWith(".xlsx")))
             {
                 // Handle the case where an unsupported file type is selected
                 return View();
             }
 
+            var xlsFile = GetXlsFile(model);
+
             // Process the file, for example, you can save it to a location or read its contents using a library like EPPlus.
+            await _excelProcessorService.PrcessFile(xlsFile.OpenReadStream());
 
-            // Example: Saving the file
-            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "uploads", file.FileName);
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                await file.CopyToAsync(stream);
-            }
-
-            // Redirect to a success page or perform other actions
-            return RedirectToAction("Success");
+            return Ok();
         }
+
+        private IFormFile GetXlsFile(FileUploadModel model) => model.UploadedFiles.FirstOrDefault(file => file.FileName.EndsWith(".xlsx"));
+        
     }
 }
