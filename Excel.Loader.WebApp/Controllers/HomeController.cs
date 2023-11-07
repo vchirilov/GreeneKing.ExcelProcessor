@@ -1,4 +1,5 @@
 ﻿using Excel.Loader.WebApp.Models;
+using Excel.Loader.WebApp.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OfficeOpenXml;
@@ -10,11 +11,13 @@ namespace Excel.Loader.WebApp.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IExcelFileService _excelFileService;
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IExcelFileService excelFileService)
         {
             _logger = logger;
+            _excelFileService = excelFileService;
         }
 
         public IActionResult Index()
@@ -53,7 +56,34 @@ namespace Excel.Loader.WebApp.Controllers
                 return await Task.FromResult(false);
             }
 
-            var packages = new List<PackageModel>();
+            var packages = new List<Packages>();
+
+            using (var stream = new MemoryStream())
+            {
+                var sheets = "Projects,Packages,Parameters,Sources,Destinations,SourceTransformation,DestinationTransformation,Mappings,Executables,Jobs,JobHistory".Split(',');
+
+                await xlsFile.CopyToAsync(stream, cancellationToken);                
+                await _excelFileService.SaveWorkbook(stream, sheets);
+            }
+
+            return true;
+
+        }
+
+        private async Task<bool> ProcessXlsFile2(IFormFile xlsFile, CancellationToken cancellationToken)
+        {
+            if (xlsFile == null || xlsFile.Length == 0)
+            {
+                return await Task.FromResult(false);
+            }
+
+            // Check the file extension. Excel files typically have .xlsx or .xls extensions
+            if (!xlsFile.FileName.EndsWith(".xlsx") && !xlsFile.FileName.EndsWith(".xls"))
+            {
+                return await Task.FromResult(false);
+            }
+
+            var packages = new List<Packages>();
 
             using (var stream = new MemoryStream())
             {
@@ -68,7 +98,7 @@ namespace Excel.Loader.WebApp.Controllers
 
                     for (int row = 2; row <= rowCount; row++)
                     {
-                        packages.Add(new PackageModel
+                        packages.Add(new Packages
                         {
                             PackageName = worksheet.Cells[row, 1].Value.ToString().Trim(),
                             Author = worksheet.Cells[row, 2].Value.ToString().Trim(),

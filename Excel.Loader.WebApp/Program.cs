@@ -13,6 +13,7 @@ namespace Excel.Loader.WebApp
             builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<DatabaseContext>();
             builder.Services.AddScoped<IStudentService, StudentService>();
+            builder.Services.AddScoped<IExcelFileService, ExcelFileService>();
 
             var app = builder.Build();
 
