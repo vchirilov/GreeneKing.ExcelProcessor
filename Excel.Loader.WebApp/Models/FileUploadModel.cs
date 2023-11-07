@@ -3,6 +3,8 @@
     public class FileUploadModel
     {
         public string PackageName { get; set; } = string.Empty;
-        public List<IFormFile> UploadedFiles { get; set; } = new List<IFormFile>();
+        public IFormFile? UploadXlsFile { get; set; }
+        public List<IFormFile> UploadControlFlowImages { get; set; } = new List<IFormFile>();
+        public List<IFormFile> UploadDataFlowImages { get; set; } = new List<IFormFile>();
     }
 }
