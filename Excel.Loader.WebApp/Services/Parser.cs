@@ -1,6 +1,7 @@
 ﻿using Excel.Loader.WebApp.Helpers;
 using Excel.Loader.WebApp.Models;
 using OfficeOpenXml;
+using System.Globalization;
 using static Excel.Loader.WebApp.Helpers.Utility;
 
 namespace Excel.Loader.WebApp.Services
@@ -37,6 +38,12 @@ namespace Excel.Loader.WebApp.Services
                                 break;
                             case "String":
                                 value = Convert.ToString(value);
+                                break;
+                            case "DateTime":
+                                value = Convert.ToDateTime(value);
+                                break;
+                            case "TimeOnly":
+                                value = TimeOnly.FromDateTime(Convert.ToDateTime(value));
                                 break;
                             default:
                                 break;

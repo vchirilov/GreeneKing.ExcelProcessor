@@ -16,6 +16,8 @@ namespace Excel.Loader.WebApp.Services
             List<DestinationTransformation> dsDestinationTransformation = null;
             List<Mappings> dsMappings = null;
             List<Executables> dsExecutables = null;
+            List<Jobs> dsJobs = null;
+            List<JobHistory> dsJobHistory = null;
 
             try
             {                
@@ -50,6 +52,12 @@ namespace Excel.Loader.WebApp.Services
 
                         if (worksheet.Key.Equals(nameof(Executables), StringComparison.OrdinalIgnoreCase))
                             dsExecutables = Parser.Parse<Executables>(worksheet.Value);
+
+                        if (worksheet.Key.Equals(nameof(Jobs), StringComparison.OrdinalIgnoreCase))
+                            dsJobs = Parser.Parse<Jobs>(worksheet.Value);
+
+                        if (worksheet.Key.Equals(nameof(JobHistory), StringComparison.OrdinalIgnoreCase))
+                            dsJobHistory = Parser.Parse<JobHistory>(worksheet.Value);
                     }
                 }
 
