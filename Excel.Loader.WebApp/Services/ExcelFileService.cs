@@ -10,6 +10,12 @@ namespace Excel.Loader.WebApp.Services
             List<Projects> dsProjects = null;
             List<Packages> dsPackages = null;
             List<Parameters> dsParameters = null;
+            List<Sources> dsSources = null;
+            List<Destinations> dsDestinations = null; 
+            List<SourceTransformation> dsSourceTransformations = null;
+            List<DestinationTransformation> dsDestinationTransformation = null;
+            List<Mappings> dsMappings = null;
+            List<Executables> dsExecutables = null;
 
             try
             {                
@@ -25,6 +31,25 @@ namespace Excel.Loader.WebApp.Services
 
                         if (worksheet.Key.Equals(nameof(Parameters), StringComparison.OrdinalIgnoreCase))
                             dsParameters = Parser.Parse<Parameters>(worksheet.Value);
+
+                        if (worksheet.Key.Equals(nameof(Sources), StringComparison.OrdinalIgnoreCase))
+                            dsSources = Parser.Parse<Sources>(worksheet.Value);
+
+                        if (worksheet.Key.Equals(nameof(Destinations), StringComparison.OrdinalIgnoreCase))
+                            dsDestinations = Parser.Parse<Destinations>(worksheet.Value);
+
+                        if (worksheet.Key.Equals(nameof(SourceTransformation), StringComparison.OrdinalIgnoreCase))
+                            dsSourceTransformations = Parser.Parse<SourceTransformation>(worksheet.Value);
+
+                        if (worksheet.Key.Equals(nameof(DestinationTransformation), StringComparison.OrdinalIgnoreCase))
+                            dsDestinationTransformation = Parser.Parse<DestinationTransformation>(worksheet.Value);
+
+                        if (worksheet.Key.Equals(nameof(Mappings), StringComparison.OrdinalIgnoreCase))
+                            dsMappings = Parser.Parse<Mappings>(worksheet.Value);
+
+
+                        if (worksheet.Key.Equals(nameof(Executables), StringComparison.OrdinalIgnoreCase))
+                            dsExecutables = Parser.Parse<Executables>(worksheet.Value);
                     }
                 }
 
