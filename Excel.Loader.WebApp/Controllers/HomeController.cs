@@ -1,6 +1,10 @@
 ﻿using Excel.Loader.WebApp.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using OfficeOpenXml;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading;
 
 namespace Excel.Loader.WebApp.Controllers
 {
@@ -29,32 +33,55 @@ namespace Excel.Loader.WebApp.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public async Task<IActionResult> UploadFiles(FileUploadModel model)
+        public async Task<IActionResult> UploadFiles(FileUploadModel model, CancellationToken cancellationToken)
         {
-            //if (file == null || file.Length == 0)
-            //{
-            //    // Handle the case where no file was selected
-            //    return View();
-            //}
+            await ProcessXlsFile(model.UploadXlsFile!, cancellationToken);
 
-            //// Check the file extension (Excel files typically have .xlsx or .xls extensions)
-            //if (!file.FileName.EndsWith(".xlsx") && !file.FileName.EndsWith(".xls"))
-            //{
-            //    // Handle the case where an unsupported file type is selected
-            //    return View();
-            //}
-
-            //// Process the file, for example, you can save it to a location or read its contents using a library like EPPlus.
-
-            //// Example: Saving the file
-            //var filePath = Path.Combine(Directory.GetCurrentDirectory(), "uploads", file.FileName);
-            //using (var stream = new FileStream(filePath, FileMode.Create))
-            //{
-            //    await file.CopyToAsync(stream);
-            //}
-
-            // Redirect to a success page or perform other actions
             return Ok();
+        }
+
+        private async Task<bool> ProcessXlsFile(IFormFile xlsFile, CancellationToken cancellationToken)
+        {
+            if (xlsFile == null || xlsFile.Length == 0)
+            {
+                return await Task.FromResult(false);
+            }
+
+            // Check the file extension. Excel files typically have .xlsx or .xls extensions
+            if (!xlsFile.FileName.EndsWith(".xlsx") && !xlsFile.FileName.EndsWith(".xls"))
+            {
+                return await Task.FromResult(false);
+            }
+
+            var packages = new List<PackageModel>();
+
+            using (var stream = new MemoryStream())
+            {
+                await xlsFile.CopyToAsync(stream, cancellationToken);
+
+                ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+                using (var package = new ExcelPackage(stream))
+                {
+                    ExcelWorksheet worksheet = package.Workbook.Worksheets[1];
+                    var rowCount = worksheet.Dimension.Rows;
+
+                    for (int row = 2; row <= rowCount; row++)
+                    {
+                        packages.Add(new PackageModel
+                        {
+                            PackageName = worksheet.Cells[row, 1].Value.ToString().Trim(),
+                            Author = worksheet.Cells[row, 2].Value.ToString().Trim(),
+                            Location = worksheet.Cells[row, 3].Value.ToString().Trim(),
+                            Technology = worksheet.Cells[row, 4].Value.ToString().Trim(),
+                            ChildPackages = worksheet.Cells[row, 5].Value.ToString().Trim()
+                        });
+                    }
+                }
+            }
+
+            return true;
+
         }
     }
 }
