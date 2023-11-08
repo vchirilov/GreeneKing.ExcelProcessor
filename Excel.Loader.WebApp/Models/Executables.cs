@@ -18,7 +18,14 @@ namespace Excel.Loader.WebApp.Models
 
         public bool IsEmpty()
         {
-            return false;
+            if (PackageName.IsNullOrEmpty() == true
+                    && ExecutableName.IsNullOrEmpty() == true
+                    && ExecutableType.IsNullOrEmpty() == true
+                    && ExecutedOnServer.IsNullOrEmpty() == true
+                    && ExecutedOnDatabase.IsNullOrEmpty() == true)
+                return true;
+            else
+                return false;
         }
     }
 }

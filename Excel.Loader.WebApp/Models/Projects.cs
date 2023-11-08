@@ -1,5 +1,6 @@
 ﻿using Excel.Loader.WebApp.Helpers;
 using System.ComponentModel.DataAnnotations;
+using System.Drawing.Drawing2D;
 
 namespace Excel.Loader.WebApp.Models
 {
@@ -13,7 +14,11 @@ namespace Excel.Loader.WebApp.Models
 
         public bool IsEmpty()
         {
-            return false;
+            if (ProjectName.IsNullOrEmpty() == true
+                    && PackageName.IsNullOrEmpty() == true)
+                return true;
+            else
+                return false;
         }
     }
 }

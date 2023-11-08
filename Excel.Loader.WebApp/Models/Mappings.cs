@@ -28,7 +28,19 @@ namespace Excel.Loader.WebApp.Models
 
         public bool IsEmpty()
         {
-            return false;
+            if (SourceServer.IsNullOrEmpty() == true
+                    && SourceDatabase.IsNullOrEmpty() == true
+                    && SourceTable.IsNullOrEmpty() == true
+                    && SourceTableColumn.IsNullOrEmpty() == true
+                    && Transformation.IsNullOrEmpty() == true
+                    && DestinationServer.IsNullOrEmpty() == true
+                    && DestinationDatabase.IsNullOrEmpty() == true
+                    && DestinationTable.IsNullOrEmpty() == true
+                    && DestinationTableColumn.IsNullOrEmpty() == true
+                    && PackageName.IsNullOrEmpty() == true)
+                return true;
+            else
+                return false;
         }
     }
 }

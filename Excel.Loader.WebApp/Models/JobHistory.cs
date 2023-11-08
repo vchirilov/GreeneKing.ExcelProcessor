@@ -10,15 +10,22 @@ namespace Excel.Loader.WebApp.Models
         [Order(2)]
         public string StepName { get; set; }
         [Order(3)]
-        public DateTime LastRunDateTime { get; set; }
+        public DateTime LastRunDateTime { get; set; } = default;
         [Order(4)]
-        public TimeOnly LastRunDuration { get; set; }
+        public TimeOnly LastRunDuration { get; set; }  = default;
         [Order(5)]
         public string PackageName { get; set; }
 
         public bool IsEmpty()
         {
-            return false;
+            if (JobName.IsNullOrEmpty() == true
+                    && StepName.IsNullOrEmpty() == true
+                    && LastRunDateTime == default
+                    && LastRunDuration == default
+                    && PackageName.IsNullOrEmpty() == true)
+                return true;
+            else
+                return false;
         }
     }
 }

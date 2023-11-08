@@ -22,7 +22,16 @@ namespace Excel.Loader.WebApp.Models
 
         public bool IsEmpty()
         {
-            return false;
+            if (Server.IsNullOrEmpty() == true
+                    && DatabaseOrFilePath.IsNullOrEmpty() == true
+                    && TableName.IsNullOrEmpty() == true
+                    && ColumnName.IsNullOrEmpty() == true
+                    && Read.IsNullOrEmpty() == true
+                    && Write.IsNullOrEmpty() == true
+                    && PackageName.IsNullOrEmpty() == true)
+                return true;
+            else
+                return false;
         }
     }
 }

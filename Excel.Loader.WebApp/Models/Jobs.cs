@@ -10,13 +10,19 @@ namespace Excel.Loader.WebApp.Models
         [Order(2)]
         public string Frequency { get; set; }
         [Order(3)]
-        public DateTime LastUsed { get; set; }
+        public DateTime LastUsed { get; set; } = default;
         [Order(4)]
         public string PackageName { get; set; }
 
         public bool IsEmpty()
         {
-            return false;
+            if (JobName.IsNullOrEmpty() == true
+                   && Frequency.IsNullOrEmpty() == true
+                   && LastUsed == default
+                   && PackageName.IsNullOrEmpty() == true)
+                return true;
+            else
+                return false;
         }
     }
 }

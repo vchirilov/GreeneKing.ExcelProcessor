@@ -20,7 +20,15 @@ namespace Excel.Loader.WebApp.Models
 
         public bool IsEmpty()
         {
-            return false;
+            if (PackageName.IsNullOrEmpty() == true
+                    && Author.IsNullOrEmpty() == true
+                    && Overview.IsNullOrEmpty() == true
+                    && Location.IsNullOrEmpty() == true
+                    && Technology.IsNullOrEmpty() == true
+                    && ChildPackages.IsNullOrEmpty() == true)
+                return true;
+            else
+                return false;
         }
     }
 }
