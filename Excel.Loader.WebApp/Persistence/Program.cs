@@ -1,7 +1,7 @@
 using Excel.Loader.WebApp.Context;
 using Excel.Loader.WebApp.Services;
 
-namespace Excel.Loader.WebApp
+namespace Excel.Loader.WebApp.Persistence
 {
     public class Program
     {
