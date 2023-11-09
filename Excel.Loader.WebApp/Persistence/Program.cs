@@ -1,5 +1,5 @@
-using Excel.Loader.WebApp.Context;
 using Excel.Loader.WebApp.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace Excel.Loader.WebApp.Persistence
 {
@@ -11,9 +11,14 @@ namespace Excel.Loader.WebApp.Persistence
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-            builder.Services.AddDbContext<DatabaseContext>();
-            builder.Services.AddScoped<IStudentService, StudentService>();
+            builder.Services.AddDbContext<GreeneKingContext>();
             builder.Services.AddScoped<IExcelFileService, ExcelFileService>();
+
+            //builder.Services.AddDbContext<GreeneKingContext>(options => {
+            //    var config = builder.Configuration;
+            //    var connectionString = config.GetConnectionString("GreeneKingConnectionString");
+            //    options.UseSqlServer(connectionString);
+            //});
 
             var app = builder.Build();
 

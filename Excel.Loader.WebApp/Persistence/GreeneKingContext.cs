@@ -15,6 +15,12 @@ public partial class GreeneKingContext : DbContext
     {
     }
 
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        var connectionString = string.Format(@"Data Source=51.12.52.30;Initial Catalog=GreeneKing;Persist Security Info=True;User ID=sa;Password=spartak_1; Encrypt=False");
+        optionsBuilder.UseSqlServer(connectionString);
+    }
+
     public virtual DbSet<ControlFlow> ControlFlows { get; set; }
 
     public virtual DbSet<DataFlow> DataFlows { get; set; }
@@ -40,11 +46,7 @@ public partial class GreeneKingContext : DbContext
     public virtual DbSet<Source> Sources { get; set; }
 
     public virtual DbSet<SourceTransformation> SourceTransformations { get; set; }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=51.12.52.30;Initial Catalog=GreeneKing;Persist Security Info=True;User ID=sa;Password=spartak_1; Encrypt=False");
-
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<ControlFlow>(entity =>

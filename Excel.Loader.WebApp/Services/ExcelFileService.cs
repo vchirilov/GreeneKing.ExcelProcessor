@@ -1,23 +1,58 @@
 ﻿using Excel.Loader.WebApp.Models;
+using Excel.Loader.WebApp.Persistence;
 
 namespace Excel.Loader.WebApp.Services
 {
     public class ExcelFileService : IExcelFileService
     {
-        public Task SaveWorkbook(Stream xlsStream, string[] sheets)
-        {
-            List<Projects> dsProjects = null;
-            List<Packages> dsPackages = null;
-            List<Parameters> dsParameters = null;
-            List<Sources> dsSources = null;
-            List<Destinations> dsDestinations = null; 
-            List<SourceTransformation> dsSourceTransformations = null;
-            List<DestinationTransformation> dsDestinationTransformation = null;
-            List<Mappings> dsMappings = null;
-            List<Executables> dsExecutables = null;
-            List<Jobs> dsJobs = null;
-            List<JobHistory> dsJobHistory = null;
+        private readonly ILogger<ExcelFileService> _logger;
 
+        GreeneKingContext _dbContext;
+
+        List<Projects> dsProjects = null;
+        List<Packages> dsPackages = null;
+        List<Parameters> dsParameters = null;
+        List<Sources> dsSources = null;
+        List<Destinations> dsDestinations = null;
+        List<Models.SourceTransformation> dsSourceTransformations = null;
+        List<Models.DestinationTransformation> dsDestinationTransformation = null;
+        List<Mappings> dsMappings = null;
+        List<Executables> dsExecutables = null;
+        List<Jobs> dsJobs = null;
+        List<JobHistory> dsJobHistory = null;
+
+        public ExcelFileService(ILogger<ExcelFileService> logger, GreeneKingContext dbContext)
+        {
+            _logger = logger;
+            _dbContext = dbContext;
+        }
+
+        public async Task SaveWorkbook(Stream xlsStream, string[] sheets)
+        {
+            await ExtractDataFromXlsFile(xlsStream, sheets);
+            await SavePackages();
+        }
+
+        private async Task SavePackages()
+        {
+            var dbPackages = dsPackages.Select(
+                p => new Package
+                {
+                    PackageName = p.PackageName,
+                    Author = p.Author,
+                    Overview = p.Overview,
+                    Location = p.Location,
+                    Technology = p.Technology,
+                    ChildPackages = p.ChildPackages
+                });
+
+            _dbContext.Packages.AddRange(dbPackages);
+
+            await _dbContext.SaveChangesAsync();
+        }
+
+        private Task ExtractDataFromXlsFile(Stream xlsStream, string[] sheets)
+        {
             try
             {                
                 using (var workbook = new Workbook(xlsStream, sheets))
@@ -39,11 +74,11 @@ namespace Excel.Loader.WebApp.Services
                         if (worksheet.Key.Equals(nameof(Destinations), StringComparison.OrdinalIgnoreCase))
                             dsDestinations = Parser.Parse<Destinations>(worksheet.Value);
 
-                        if (worksheet.Key.Equals(nameof(SourceTransformation), StringComparison.OrdinalIgnoreCase))
-                            dsSourceTransformations = Parser.Parse<SourceTransformation>(worksheet.Value);
+                        if (worksheet.Key.Equals(nameof(Models.SourceTransformation), StringComparison.OrdinalIgnoreCase))
+                            dsSourceTransformations = Parser.Parse<Models.SourceTransformation>(worksheet.Value);
 
-                        if (worksheet.Key.Equals(nameof(DestinationTransformation), StringComparison.OrdinalIgnoreCase))
-                            dsDestinationTransformation = Parser.Parse<DestinationTransformation>(worksheet.Value);
+                        if (worksheet.Key.Equals(nameof(Models.DestinationTransformation), StringComparison.OrdinalIgnoreCase))
+                            dsDestinationTransformation = Parser.Parse<Models.DestinationTransformation>(worksheet.Value);
 
                         if (worksheet.Key.Equals(nameof(Mappings), StringComparison.OrdinalIgnoreCase))
                             dsMappings = Parser.Parse<Mappings>(worksheet.Value);
@@ -64,7 +99,7 @@ namespace Excel.Loader.WebApp.Services
             }
             catch (Exception exc)
             {
-                throw exc;
+                throw;
             }
         }
     }
