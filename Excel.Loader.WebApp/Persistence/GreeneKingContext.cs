@@ -15,12 +15,6 @@ public partial class GreeneKingContext : DbContext
     {
     }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        var connectionString = string.Format(@"Data Source=51.12.52.30;Initial Catalog=GreeneKing;Persist Security Info=True;User ID=sa;Password=spartak_1; Encrypt=False");
-        optionsBuilder.UseSqlServer(connectionString);
-    }
-
     public virtual DbSet<ControlFlow> ControlFlows { get; set; }
 
     public virtual DbSet<DataFlow> DataFlows { get; set; }

@@ -11,14 +11,13 @@ namespace Excel.Loader.WebApp.Persistence
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-            builder.Services.AddDbContext<GreeneKingContext>();
             builder.Services.AddScoped<IExcelFileService, ExcelFileService>();
-
-            //builder.Services.AddDbContext<GreeneKingContext>(options => {
-            //    var config = builder.Configuration;
-            //    var connectionString = config.GetConnectionString("GreeneKingConnectionString");
-            //    options.UseSqlServer(connectionString);
-            //});
+            builder.Services.AddDbContext<GreeneKingContext>(options =>
+            {
+                var config = builder.Configuration;
+                var connectionString = config.GetConnectionString("GreeneKingConnectionString");
+                options.UseSqlServer(connectionString);
+            });            
 
             var app = builder.Build();
 
