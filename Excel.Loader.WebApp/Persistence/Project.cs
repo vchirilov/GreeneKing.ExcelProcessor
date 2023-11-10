@@ -5,6 +5,8 @@ namespace Excel.Loader.WebApp.Persistence;
 
 public partial class Project
 {
+    public int Id { get; set; }
+
     public string ProjectName { get; set; }
 
     public string PackageName { get; set; }

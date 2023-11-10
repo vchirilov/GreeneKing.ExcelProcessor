@@ -1,7 +1,8 @@
+using Excel.Loader.WebApp.Persistence;
 using Excel.Loader.WebApp.Services;
 using Microsoft.EntityFrameworkCore;
 
-namespace Excel.Loader.WebApp.Persistence
+namespace Excel.Loader.WebApp
 {
     public class Program
     {
@@ -17,7 +18,7 @@ namespace Excel.Loader.WebApp.Persistence
                 var config = builder.Configuration;
                 var connectionString = config.GetConnectionString("GreeneKingConnectionString");
                 options.UseSqlServer(connectionString);
-            });            
+            });
 
             var app = builder.Build();
 

@@ -1,5 +1,6 @@
 ﻿using Excel.Loader.WebApp.Models;
 using Excel.Loader.WebApp.Persistence;
+using System.Reflection.Metadata;
 
 namespace Excel.Loader.WebApp.Services
 {
@@ -30,7 +31,12 @@ namespace Excel.Loader.WebApp.Services
         public async Task SaveWorkbook(Stream xlsStream, string[] sheets)
         {
             await ExtractDataFromXlsFile(xlsStream, sheets);
-            await SavePackages();
+            
+            await SavePackages(); //Important to be the first statement as Package object is parent entity
+            await SaveProjects();
+            await SaveParameters();
+            await SaveSources();
+            await SaveDestinations();
         }
 
         private async Task SavePackages()
@@ -47,6 +53,67 @@ namespace Excel.Loader.WebApp.Services
                 });
 
             _dbContext.Packages.AddRange(dbPackages);
+
+            await _dbContext.SaveChangesAsync();
+        }
+
+        private async Task SaveProjects()
+        {
+            var dbProjects = dsProjects.Select(
+                p => new Project
+                {
+                    PackageName = p.PackageName,
+                   ProjectName = p.ProjectName
+                });
+
+            _dbContext.Projects.AddRange(dbProjects);
+
+            await _dbContext.SaveChangesAsync();
+        }
+
+        private async Task SaveParameters()
+        {
+            var dbParameters = dsParameters.Select(
+                p => new PackageParameter
+                {
+                    PackageName = p.PackageName,
+                    ParameterName = p.ParameterName,
+                    ParameterType = p.ParameterType
+                });
+
+            _dbContext.PackageParameters.AddRange(dbParameters);
+
+            await _dbContext.SaveChangesAsync();
+        }
+
+        private async Task SaveSources()
+        {
+            var dbSources = dsSources.Select(
+                p => new Source
+                {
+                    Server = p.Server,
+                    DatabaseOrFilePath = p.DatabaseOrFilePath,
+                    SourceType = p.SourceType,
+                    PackageName = p.PackageName
+                });
+
+            _dbContext.Sources.AddRange(dbSources);
+
+            await _dbContext.SaveChangesAsync();
+        }
+
+        private async Task SaveDestinations()
+        {
+            var dbDestinations = dsDestinations.Select(
+                p => new Destination
+                {
+                    Server = p.Server,
+                    DatabaseOrFilePath = p.DatabaseOrFilePath,
+                    DestinationType = p.DestinationType,
+                    PackageName = p.PackageName
+                });
+
+            _dbContext.Destinations.AddRange(dbDestinations);
 
             await _dbContext.SaveChangesAsync();
         }

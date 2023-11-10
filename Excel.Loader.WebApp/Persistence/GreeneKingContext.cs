@@ -40,19 +40,17 @@ public partial class GreeneKingContext : DbContext
     public virtual DbSet<Source> Sources { get; set; }
 
     public virtual DbSet<SourceTransformation> SourceTransformations { get; set; }
-    
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<ControlFlow>(entity =>
         {
-            entity.HasNoKey();
+            entity.HasKey(e => e.Id).HasName("PK__ControlF__3214EC27FA07191D");
 
+            entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.ControlFlow1)
                 .HasColumnType("image")
                 .HasColumnName("ControlFlow");
-            entity.Property(e => e.Id)
-                .ValueGeneratedOnAdd()
-                .HasColumnName("ID");
             entity.Property(e => e.PackageName)
                 .HasMaxLength(100)
                 .IsUnicode(false);
@@ -60,14 +58,12 @@ public partial class GreeneKingContext : DbContext
 
         modelBuilder.Entity<DataFlow>(entity =>
         {
-            entity.HasNoKey();
+            entity.HasKey(e => e.Id).HasName("PK__DataFlow__3214EC27DEE104AB");
 
+            entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.DataFlow1)
                 .HasColumnType("image")
                 .HasColumnName("DataFlow");
-            entity.Property(e => e.Id)
-                .ValueGeneratedOnAdd()
-                .HasColumnName("ID");
             entity.Property(e => e.PackageName)
                 .HasMaxLength(100)
                 .IsUnicode(false);
@@ -75,17 +71,13 @@ public partial class GreeneKingContext : DbContext
 
         modelBuilder.Entity<Destination>(entity =>
         {
-            entity.HasNoKey();
+            entity.HasKey(e => e.Id).HasName("PK__Destinat__3214EC2740360B13");
 
-            entity.Property(e => e.DatabaseOrFilePath)
-                .HasMaxLength(100)
-                .IsUnicode(false);
+            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.DatabaseOrFilePath).IsUnicode(false);
             entity.Property(e => e.DestinationType)
                 .HasMaxLength(100)
                 .IsUnicode(false);
-            entity.Property(e => e.Id)
-                .ValueGeneratedOnAdd()
-                .HasColumnName("ID");
             entity.Property(e => e.PackageName)
                 .HasMaxLength(100)
                 .IsUnicode(false);
@@ -93,7 +85,7 @@ public partial class GreeneKingContext : DbContext
                 .HasMaxLength(100)
                 .IsUnicode(false);
 
-            entity.HasOne(d => d.PackageNameNavigation).WithMany()
+            entity.HasOne(d => d.PackageNameNavigation).WithMany(p => p.Destinations)
                 .HasForeignKey(d => d.PackageName)
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Destinations_Packages");
@@ -101,17 +93,15 @@ public partial class GreeneKingContext : DbContext
 
         modelBuilder.Entity<DestinationTransformation>(entity =>
         {
-            entity.HasNoKey();
+            entity.HasKey(e => e.Id).HasName("PK__Destinat__3214EC2775800586");
 
+            entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.ColumnName)
                 .HasMaxLength(255)
                 .IsUnicode(false);
             entity.Property(e => e.DatabaseOrFilePath)
                 .HasMaxLength(100)
                 .IsUnicode(false);
-            entity.Property(e => e.Id)
-                .ValueGeneratedOnAdd()
-                .HasColumnName("ID");
             entity.Property(e => e.PackageName)
                 .HasMaxLength(100)
                 .IsUnicode(false);
@@ -128,7 +118,7 @@ public partial class GreeneKingContext : DbContext
                 .HasMaxLength(10)
                 .IsUnicode(false);
 
-            entity.HasOne(d => d.PackageNameNavigation).WithMany()
+            entity.HasOne(d => d.PackageNameNavigation).WithMany(p => p.DestinationTransformations)
                 .HasForeignKey(d => d.PackageName)
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_DestinationTransformations_Packages");
@@ -136,8 +126,9 @@ public partial class GreeneKingContext : DbContext
 
         modelBuilder.Entity<Executable>(entity =>
         {
-            entity.HasNoKey();
+            entity.HasKey(e => e.Id).HasName("PK__Executab__3214EC27996918C3");
 
+            entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.ExecutableName)
                 .HasMaxLength(100)
                 .IsUnicode(false);
@@ -150,14 +141,11 @@ public partial class GreeneKingContext : DbContext
             entity.Property(e => e.ExecutedOnServer)
                 .HasMaxLength(100)
                 .IsUnicode(false);
-            entity.Property(e => e.Id)
-                .ValueGeneratedOnAdd()
-                .HasColumnName("ID");
             entity.Property(e => e.PackageName)
                 .HasMaxLength(100)
                 .IsUnicode(false);
 
-            entity.HasOne(d => d.PackageNameNavigation).WithMany()
+            entity.HasOne(d => d.PackageNameNavigation).WithMany(p => p.Executables)
                 .HasForeignKey(d => d.PackageName)
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Executables_Packages");
@@ -165,14 +153,12 @@ public partial class GreeneKingContext : DbContext
 
         modelBuilder.Entity<Job>(entity =>
         {
-            entity.HasNoKey();
+            entity.HasKey(e => e.Id).HasName("PK__Jobs__3214EC27233A43A4");
 
+            entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.Frequency)
                 .HasMaxLength(255)
                 .IsUnicode(false);
-            entity.Property(e => e.Id)
-                .ValueGeneratedOnAdd()
-                .HasColumnName("ID");
             entity.Property(e => e.JobName)
                 .HasMaxLength(100)
                 .IsUnicode(false);
@@ -181,7 +167,7 @@ public partial class GreeneKingContext : DbContext
                 .HasMaxLength(100)
                 .IsUnicode(false);
 
-            entity.HasOne(d => d.PackageNameNavigation).WithMany()
+            entity.HasOne(d => d.PackageNameNavigation).WithMany(p => p.Jobs)
                 .HasForeignKey(d => d.PackageName)
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Jobs_Packages");
@@ -189,13 +175,11 @@ public partial class GreeneKingContext : DbContext
 
         modelBuilder.Entity<JobsHistory>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("JobsHistory");
+            entity.HasKey(e => e.Id).HasName("PK__JobsHist__3214EC2723D93C46");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedOnAdd()
-                .HasColumnName("ID");
+            entity.ToTable("JobsHistory");
+
+            entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.JobName)
                 .HasMaxLength(100)
                 .IsUnicode(false);
@@ -207,7 +191,7 @@ public partial class GreeneKingContext : DbContext
                 .HasMaxLength(100)
                 .IsUnicode(false);
 
-            entity.HasOne(d => d.PackageNameNavigation).WithMany()
+            entity.HasOne(d => d.PackageNameNavigation).WithMany(p => p.JobsHistories)
                 .HasForeignKey(d => d.PackageName)
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_JobsHistory_Packages");
@@ -215,8 +199,9 @@ public partial class GreeneKingContext : DbContext
 
         modelBuilder.Entity<Mapping>(entity =>
         {
-            entity.HasNoKey();
+            entity.HasKey(e => e.Id).HasName("PK__Mappings__3214EC272BA18C00");
 
+            entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.DestinationDatabase)
                 .HasMaxLength(100)
                 .IsUnicode(false);
@@ -229,9 +214,6 @@ public partial class GreeneKingContext : DbContext
             entity.Property(e => e.DestinationTableColumn)
                 .HasMaxLength(100)
                 .IsUnicode(false);
-            entity.Property(e => e.Id)
-                .ValueGeneratedOnAdd()
-                .HasColumnName("ID");
             entity.Property(e => e.PackageName)
                 .HasMaxLength(100)
                 .IsUnicode(false);
@@ -245,7 +227,7 @@ public partial class GreeneKingContext : DbContext
                 .HasMaxLength(255)
                 .IsUnicode(false);
 
-            entity.HasOne(d => d.PackageNameNavigation).WithMany()
+            entity.HasOne(d => d.PackageNameNavigation).WithMany(p => p.Mappings)
                 .HasForeignKey(d => d.PackageName)
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Mapping_Packages");
@@ -253,7 +235,7 @@ public partial class GreeneKingContext : DbContext
 
         modelBuilder.Entity<Package>(entity =>
         {
-            entity.HasKey(e => e.PackageName).HasName("PK__Packages__73856F7B25999289");
+            entity.HasKey(e => e.PackageName).HasName("PK__Packages__73856F7BF61858D0");
 
             entity.Property(e => e.PackageName)
                 .HasMaxLength(100)
@@ -277,11 +259,9 @@ public partial class GreeneKingContext : DbContext
 
         modelBuilder.Entity<PackageParameter>(entity =>
         {
-            entity.HasNoKey();
+            entity.HasKey(e => e.Id).HasName("PK__PackageP__3214EC2712736839");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedOnAdd()
-                .HasColumnName("ID");
+            entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.PackageName)
                 .HasMaxLength(100)
                 .IsUnicode(false);
@@ -292,7 +272,7 @@ public partial class GreeneKingContext : DbContext
                 .HasMaxLength(100)
                 .IsUnicode(false);
 
-            entity.HasOne(d => d.PackageNameNavigation).WithMany()
+            entity.HasOne(d => d.PackageNameNavigation).WithMany(p => p.PackageParameters)
                 .HasForeignKey(d => d.PackageName)
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Parameters_Packages");
@@ -300,8 +280,9 @@ public partial class GreeneKingContext : DbContext
 
         modelBuilder.Entity<Project>(entity =>
         {
-            entity.HasNoKey();
+            entity.HasKey(e => e.Id).HasName("PK__Projects__3214EC270D225248");
 
+            entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.PackageName)
                 .HasMaxLength(100)
                 .IsUnicode(false);
@@ -310,7 +291,7 @@ public partial class GreeneKingContext : DbContext
                 .HasMaxLength(100)
                 .IsUnicode(false);
 
-            entity.HasOne(d => d.PackageNameNavigation).WithMany()
+            entity.HasOne(d => d.PackageNameNavigation).WithMany(p => p.Projects)
                 .HasForeignKey(d => d.PackageName)
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Projects_Packages");
@@ -318,8 +299,9 @@ public partial class GreeneKingContext : DbContext
 
         modelBuilder.Entity<Source>(entity =>
         {
-            entity.HasNoKey();
+            entity.HasKey(e => e.Id).HasName("PK__Sources__3214EC272B7B34BF");
 
+            entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.DatabaseOrFilePath)
                 .HasMaxLength(100)
                 .IsUnicode(false);
@@ -333,7 +315,7 @@ public partial class GreeneKingContext : DbContext
                 .HasMaxLength(100)
                 .IsUnicode(false);
 
-            entity.HasOne(d => d.PackageNameNavigation).WithMany()
+            entity.HasOne(d => d.PackageNameNavigation).WithMany(p => p.Sources)
                 .HasForeignKey(d => d.PackageName)
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Sources_Packages");
@@ -341,8 +323,9 @@ public partial class GreeneKingContext : DbContext
 
         modelBuilder.Entity<SourceTransformation>(entity =>
         {
-            entity.HasNoKey();
+            entity.HasKey(e => e.Id).HasName("PK__SourceTr__3214EC2752333F6F");
 
+            entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.ColumnName)
                 .HasMaxLength(255)
                 .IsUnicode(false);
@@ -365,7 +348,7 @@ public partial class GreeneKingContext : DbContext
                 .HasMaxLength(10)
                 .IsUnicode(false);
 
-            entity.HasOne(d => d.PackageNameNavigation).WithMany()
+            entity.HasOne(d => d.PackageNameNavigation).WithMany(p => p.SourceTransformations)
                 .HasForeignKey(d => d.PackageName)
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_SourceTransformations_Packages");
