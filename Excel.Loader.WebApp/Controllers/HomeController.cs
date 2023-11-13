@@ -38,12 +38,12 @@ namespace Excel.Loader.WebApp.Controllers
 
         public async Task<IActionResult> UploadFiles(FileUploadModel model, CancellationToken cancellationToken)
         {
-            await ProcessXlsFile(model.UploadXlsFile!, cancellationToken);
+            await ProcessXlsFile(model.PackageName, model.UploadXlsFile!, cancellationToken);
 
             return Ok();
         }
 
-        private async Task<bool> ProcessXlsFile(IFormFile xlsFile, CancellationToken cancellationToken)
+        private async Task<bool> ProcessXlsFile(string packageName, IFormFile xlsFile, CancellationToken cancellationToken)
         {
             if (xlsFile == null || xlsFile.Length == 0)
             {
@@ -63,7 +63,7 @@ namespace Excel.Loader.WebApp.Controllers
                 var sheets = "Projects,Packages,Parameters,Sources,Destinations,SourceTransformation,DestinationTransformation,Mappings,Executables,Jobs,JobHistory".Split(',');
 
                 await xlsFile.CopyToAsync(stream, cancellationToken);                
-                await _excelFileService.SaveWorkbook(stream, sheets);
+                await _excelFileService.SaveWorkbook(packageName, stream, sheets);
             }
 
             return true;

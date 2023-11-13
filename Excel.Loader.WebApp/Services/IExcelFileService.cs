@@ -5,6 +5,6 @@ namespace Excel.Loader.WebApp.Services
 {
     public interface IExcelFileService
     {
-        Task SaveWorkbook(Stream xlsStream, string[] sheets);
+        Task SaveWorkbook(string packageName, Stream xlsStream, string[] sheets);
     }    
 }
