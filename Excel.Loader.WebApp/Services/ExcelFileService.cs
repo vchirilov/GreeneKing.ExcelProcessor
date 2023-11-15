@@ -31,8 +31,7 @@ namespace Excel.Loader.WebApp.Services
         public async Task SaveWorkbook(string packageName, Stream xlsStream, string[] sheets)
         {
             await ExtractDataFromXlsFile(xlsStream, sheets);
-
-            //await DeletePackage(packageName);
+            await DeletePackage(packageName);
             await SavePackage();
         }
 

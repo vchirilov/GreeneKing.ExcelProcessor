@@ -13,6 +13,7 @@ namespace Excel.Loader.WebApp
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddScoped<IExcelFileService, ExcelFileService>();
+            builder.Services.AddScoped<IImageService, ImageService>();
             builder.Services.AddDbContext<GreeneKingContext>(options =>
             {
                 var config = builder.Configuration;
