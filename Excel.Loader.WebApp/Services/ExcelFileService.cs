@@ -29,7 +29,7 @@ namespace Excel.Loader.WebApp.Services
         }
 
         public async Task SaveWorkbook(string packageName, Stream xlsStream, string[] sheets)
-        {
+        {            
             await ExtractDataFromXlsFile(xlsStream, sheets);
             await DeletePackage(packageName);
             await SavePackage();
@@ -52,7 +52,7 @@ namespace Excel.Loader.WebApp.Services
             await _dbContext.SaveChangesAsync();
         }
 
-        private Task DeletePackage(string packageName)
+        private async Task DeletePackage(string packageName)
         {
             var dbPackage = _dbContext.Packages.FirstOrDefault(p => p.PackageName == packageName);
             var dbControlFlows = _dbContext.ControlFlows.Where(p => p.PackageName == packageName);
@@ -62,10 +62,10 @@ namespace Excel.Loader.WebApp.Services
             {                
                 _dbContext.ControlFlows.RemoveRange(dbControlFlows);
                 _dbContext.DataFlows.RemoveRange(dbDataFlows);
-                _dbContext.Packages.Remove(dbPackage);                
-            }
+                _dbContext.Packages.Remove(dbPackage);
 
-            return Task.CompletedTask;
+                await _dbContext.SaveChangesAsync();
+            }
         }
 
         private Task LoadPackage()
