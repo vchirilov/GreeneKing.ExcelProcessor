@@ -7,6 +7,8 @@ public partial class Mapping
 {
     public int Id { get; set; }
 
+    public string SourceServer { get; set; }
+
     public string SourceDatabase { get; set; }
 
     public string SourceTable { get; set; }

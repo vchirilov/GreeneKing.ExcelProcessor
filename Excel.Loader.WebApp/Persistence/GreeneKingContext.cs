@@ -217,6 +217,9 @@ public partial class GreeneKingContext : DbContext
             entity.Property(e => e.PackageName)
                 .HasMaxLength(100)
                 .IsUnicode(false);
+            entity.Property(e => e.SourceServer)
+                .HasMaxLength(100)
+                .IsUnicode(false);
             entity.Property(e => e.SourceDatabase)
                 .HasMaxLength(100)
                 .IsUnicode(false);

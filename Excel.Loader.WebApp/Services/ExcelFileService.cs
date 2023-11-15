@@ -33,15 +33,27 @@ namespace Excel.Loader.WebApp.Services
             await ExtractDataFromXlsFile(xlsStream, sheets);
 
             //await DeletePackage(packageName);
-
-            await SavePackages(); //Important to be the first statement as Package object is parent entity
-            await SaveProjects();
-            await SaveParameters();
-            await SaveSources();
-            await SaveDestinations();
+            await SavePackage();
         }
 
-        private async Task DeletePackage(string packageName)
+        private async Task SavePackage()
+        {
+            await LoadPackage(); //Important to be the first statement as Package object is parent entity
+            await LoadProjects();
+            await LoadParameters();
+            await LoadSources();
+            await LoadDestinations();
+            await LoadSourceDestinations();
+            await LoadDestinationTransformations();
+            await LoadMappings();
+            await LoadExecutables();
+            await LoadJobs();
+            await LoadJobHistory();
+
+            await _dbContext.SaveChangesAsync();
+        }
+
+        private Task DeletePackage(string packageName)
         {
             var dbPackage = _dbContext.Packages.FirstOrDefault(p => p.PackageName == packageName);
             var dbControlFlows = _dbContext.ControlFlows.Where(p => p.PackageName == packageName);
@@ -51,13 +63,13 @@ namespace Excel.Loader.WebApp.Services
             {                
                 _dbContext.ControlFlows.RemoveRange(dbControlFlows);
                 _dbContext.DataFlows.RemoveRange(dbDataFlows);
-                _dbContext.Packages.Remove(dbPackage);
-
-                await _dbContext.SaveChangesAsync();
+                _dbContext.Packages.Remove(dbPackage);                
             }
+
+            return Task.CompletedTask;
         }
 
-        private async Task SavePackages()
+        private Task LoadPackage()
         {
             var dbPackages = dsPackages.Select(
                 p => new Package
@@ -71,11 +83,10 @@ namespace Excel.Loader.WebApp.Services
                 });
 
             _dbContext.Packages.AddRange(dbPackages);
-
-            await _dbContext.SaveChangesAsync();
+            return Task.CompletedTask;
         }
 
-        private async Task SaveProjects()
+        private Task LoadProjects()
         {
             var dbProjects = dsProjects.Select(
                 p => new Project
@@ -85,11 +96,10 @@ namespace Excel.Loader.WebApp.Services
                 });
 
             _dbContext.Projects.AddRange(dbProjects);
-
-            await _dbContext.SaveChangesAsync();
+            return Task.CompletedTask;
         }
 
-        private async Task SaveParameters()
+        private Task LoadParameters()
         {
             var dbParameters = dsParameters.Select(
                 p => new PackageParameter
@@ -100,11 +110,10 @@ namespace Excel.Loader.WebApp.Services
                 });
 
             _dbContext.PackageParameters.AddRange(dbParameters);
-
-            await _dbContext.SaveChangesAsync();
+            return Task.CompletedTask;
         }
 
-        private async Task SaveSources()
+        private Task LoadSources()
         {
             var dbSources = dsSources.Select(
                 p => new Source
@@ -116,11 +125,10 @@ namespace Excel.Loader.WebApp.Services
                 });
 
             _dbContext.Sources.AddRange(dbSources);
-
-            await _dbContext.SaveChangesAsync();
+            return Task.CompletedTask;
         }
 
-        private async Task SaveDestinations()
+        private Task LoadDestinations()
         {
             var dbDestinations = dsDestinations.Select(
                 p => new Destination
@@ -132,8 +140,111 @@ namespace Excel.Loader.WebApp.Services
                 });
 
             _dbContext.Destinations.AddRange(dbDestinations);
+            return Task.CompletedTask;
+        }
 
-            await _dbContext.SaveChangesAsync();
+        private Task LoadSourceDestinations()
+        {
+            var dbSourceDestinations = dsSourceTransformations.Select(
+                p => new Persistence.SourceTransformation
+                {
+                    Server = p.Server,
+                    DatabaseOrFilePath = p.DatabaseOrFilePath,
+                    TableName = p.TableName,
+                    ColumnName = p.ColumnName,
+                    Read = p.Read,
+                    Write = p.Write,
+                    PackageName = p.PackageName
+                });
+
+            _dbContext.SourceTransformations.AddRange(dbSourceDestinations);
+            return Task.CompletedTask;
+        }
+
+        private Task LoadDestinationTransformations()
+        {
+            var dbSourceTransformations = dsDestinationTransformation.Select(
+                p => new Persistence.DestinationTransformation
+                {
+                    Server = p.Server,
+                    DatabaseOrFilePath = p.DatabaseOrFilePath,
+                    TableName = p.TableName,
+                    ColumnName = p.ColumnName,
+                    Read = p.Read,
+                    Write = p.Write,
+                    PackageName = p.PackageName
+                });
+
+            _dbContext.DestinationTransformations.AddRange(dbSourceTransformations);
+            return Task.CompletedTask;
+        }
+
+        private Task LoadMappings()
+        {
+            var dbMappings = dsMappings.Select(
+                p => new Mapping
+                {
+                    SourceServer = p.SourceServer,
+                    SourceDatabase = p.SourceDatabase,
+                    SourceTable = p.SourceTable,
+                    SourceTableColumn = p.SourceTableColumn,
+                    Transformation = p.Transformation,
+                    DestinationServer = p.DestinationServer,
+                    DestinationDatabase = p.DestinationDatabase,
+                    DestinationTable = p.DestinationTable, 
+                    DestinationTableColumn = p.DestinationTableColumn,                   
+                    PackageName = p.PackageName
+                });
+
+            _dbContext.Mappings.AddRange(dbMappings);
+            return Task.CompletedTask;
+        }
+
+        private Task LoadExecutables()
+        {
+            var dbExecutables = dsExecutables.Select(
+                p => new Executable
+                {                    
+                    PackageName = p.PackageName,
+                    ExecutableName = p.ExecutableName,
+                    ExecutableType = p.ExecutableType,
+                    ExecutedOnServer = p.ExecutedOnServer,
+                    ExecutedOnDatabase = p.ExecutedOnDatabase
+                });
+
+            _dbContext.Executables.AddRange(dbExecutables);
+            return Task.CompletedTask;
+        }
+
+        private Task LoadJobs()
+        {
+            var dbJobs = dsJobs.Select(
+                p => new Job
+                {
+                    JobName = p.JobName,
+                    Frequency = p.Frequency,
+                    LastUsed = p.LastUsed,
+                    PackageName = p.PackageName
+                });
+
+            _dbContext.Jobs.AddRange(dbJobs);
+            return Task.CompletedTask;
+        }
+
+        private Task LoadJobHistory()
+        {
+            var dbJobHistory = dsJobHistory.Select(
+                p => new JobsHistory
+                {
+                    JobName = p.JobName,
+                    StepName = p.StepName,
+                    LastRunDateTime = p.LastRunDateTime,
+                    LastRunDuration = p.LastRunDuration.ToTimeSpan(),
+                    PackageName = p.PackageName
+                });
+
+            _dbContext.JobsHistories.AddRange(dbJobHistory);
+            return Task.CompletedTask;
         }
 
         private Task ExtractDataFromXlsFile(Stream xlsStream, string[] sheets)
@@ -182,7 +293,7 @@ namespace Excel.Loader.WebApp.Services
 
                 return Task.CompletedTask;
             }
-            catch (Exception exc)
+            catch (Exception)
             {
                 throw;
             }
