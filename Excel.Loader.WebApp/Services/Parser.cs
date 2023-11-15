@@ -25,6 +25,7 @@ namespace Excel.Loader.WebApp.Services
                 foreach (var prop in AttributeHelper.GetSortedProperties<T>())
                 {
                     object value = worksheet.Cells[row, col].Value;
+                    string textValue = worksheet.Cells[row, col].Text;
 
                     try
                     {
@@ -49,7 +50,7 @@ namespace Excel.Loader.WebApp.Services
                                 break;
                         }
 
-                        typeof(T).GetProperty($"{prop.Name}").SetValue(obj, value);
+                        typeof(T).GetProperty($"{prop.Name}").SetValue(obj, textValue.IsNullOrEmpty() ? null : value);
                         col++;
                     }
                     catch
@@ -63,88 +64,6 @@ namespace Excel.Loader.WebApp.Services
             }
 
             return data;
-        }
-
-        //public static void ValidateWorkbook()
-        //{
-        //    LogInfo("Workbook is being validated...");
-
-        //    try
-        //    {
-        //        using (ExcelPackage package = new ExcelPackage(ApplicationState.File))
-        //        {
-        //            var mainConfiguredSheets = AppSettings.GetInstance().MainSheets;
-        //            var monthlyConfiguredSheet = AppSettings.GetInstance().MonthlySheet;
-        //            var trackingConfiguredSheets = AppSettings.GetInstance().TrackingSheets;
-
-        //            var worksheets = package.Workbook.Worksheets.Select(x => x.Name).ToArray();
-
-        //            if (ApplicationState.ImportType.IsBase && !mainConfiguredSheets.All(x => worksheets.Contains(x, StringComparer.OrdinalIgnoreCase)))
-        //            {
-        //                var missingSheets = string.Join(",", mainConfiguredSheets.Except(worksheets, StringComparer.OrdinalIgnoreCase).ToArray());
-        //                throw ApplicationError.Create($"Workbook is not valid for full-import type.Missing pages are {missingSheets}");
-        //            }
-
-        //            if (ApplicationState.ImportType.IsMonthly && !monthlyConfiguredSheet.All(x => worksheets.Contains(x, StringComparer.OrdinalIgnoreCase)))
-        //            {
-        //                var missingSheets = string.Join(",", monthlyConfiguredSheet.Except(worksheets, StringComparer.OrdinalIgnoreCase).ToArray());
-        //                throw ApplicationError.Create($"Workbook is not valid for monthly-plan type.Missing pages are {missingSheets}");
-        //            }
-
-        //            if (ApplicationState.ImportType.IsTracking && !trackingConfiguredSheets.All(x => worksheets.Contains(x, StringComparer.OrdinalIgnoreCase)))
-        //            {
-        //                var missingSheets = string.Join(",", trackingConfiguredSheets.Except(worksheets, StringComparer.OrdinalIgnoreCase).ToArray());
-        //                throw ApplicationError.Create($"Workbook is not valid for monthly-tracking type.Missing pages are {missingSheets}");
-        //            }
-        //        }
-        //    }
-        //    catch (Exception exc)
-        //    {
-        //        throw exc;
-        //    }
-        //}
-
-        //public static void ValidatePage(Type type, ExcelWorksheet worksheet)
-        //{
-        //    var sheet = type.Name;
-
-        //    try
-        //    {
-        //        int colCount = worksheet.Dimension.Columns;
-
-        //        for (int col = 1; col <= colCount; col++)
-        //        {
-        //            object cellValue = worksheet.Cells[1, col].Value;
-
-        //            if (cellValue == null)
-        //                continue;
-
-        //            string columnName = (string)cellValue;
-
-        //            if (columnName.EndsWith("(%)"))
-        //            {
-        //                columnName = columnName.TrimEnd("(%)".ToArray());
-        //            }
-
-        //            string modelProperty = string.Empty;
-
-        //            try
-        //            {
-        //                modelProperty = AttributeHelper.GetPropertyByKey(type, col).Name;
-        //            }
-        //            catch
-        //            {
-        //                continue;
-        //            }
-
-        //            if (!string.Equals(columnName.ReplaceSpace(), modelProperty, StringComparison.OrdinalIgnoreCase))
-        //                throw ApplicationError.Create($"Column {modelProperty} is expected but {columnName} found in sheet {sheet}.");
-        //        }
-        //    }
-        //    catch (Exception exc)
-        //    {
-        //        throw exc;
-        //    }
-        //}
+        }        
     }
 }
