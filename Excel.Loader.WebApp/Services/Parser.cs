@@ -68,8 +68,7 @@ namespace Excel.Loader.WebApp.Services
 
         private static DateTime TryDateTimeConvert(object value)
         {
-            DateTime returnValue = default;
-            if (!DateTime.TryParse(value.ToString(), out returnValue))
+            if (!DateTime.TryParse(value.ToString(), out var returnValue))
             {
                 returnValue = DateTime.FromOADate((double)value);
             }
