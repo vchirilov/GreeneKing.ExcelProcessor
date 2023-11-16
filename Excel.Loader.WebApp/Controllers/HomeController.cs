@@ -3,6 +3,7 @@ using Excel.Loader.WebApp.Models;
 using Excel.Loader.WebApp.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.IO;
 
 namespace Excel.Loader.WebApp.Controllers
 {
@@ -39,6 +40,8 @@ namespace Excel.Loader.WebApp.Controllers
         {
             try
             {
+                await DeletePackage(model.PackageName);
+
                 await ProcessXlsFile(model.PackageName, model.UploadXlsFile!, cancellationToken);
                 await ProcessImageFile(model.PackageName, FlowType.ControlFlow, model.UploadControlFlowImages, cancellationToken);
                 await ProcessImageFile(model.PackageName, FlowType.DataFlow, model.UploadDataFlowImages, cancellationToken);
@@ -50,7 +53,7 @@ namespace Excel.Loader.WebApp.Controllers
                 return Error();
             }
   
-        }
+        } 
                 
         private async Task ProcessXlsFile(string packageName, IFormFile xlsFile, CancellationToken cancellationToken)
         {
@@ -73,7 +76,7 @@ namespace Excel.Loader.WebApp.Controllers
                 var sheets = "Projects,Packages,Parameters,Sources,Destinations,SourceTransformation,DestinationTransformation,Mappings,Executables,Jobs,JobHistory".Split(',');
 
                 await xlsFile.CopyToAsync(stream, cancellationToken);
-                await _excelFileService.SaveWorkbook(packageName, stream, sheets);
+                await _excelFileService.SavePackage(packageName, stream, sheets);
             }
             catch (Exception ex)
             {
@@ -107,6 +110,11 @@ namespace Excel.Loader.WebApp.Controllers
                 _logger.LogError(ex.Message);
                 throw;
             }
+        }
+
+        private async Task DeletePackage(string packageName)
+        {
+            await _excelFileService.DeletePackage(packageName);
         }
     }
 }
