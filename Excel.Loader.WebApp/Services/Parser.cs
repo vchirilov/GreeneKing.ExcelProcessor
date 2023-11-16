@@ -41,7 +41,7 @@ namespace Excel.Loader.WebApp.Services
                                 value = Convert.ToString(value);
                                 break;
                             case "DateTime":
-                                value = Convert.ToDateTime(value);
+                                value = TryDateTimeConvert(value);
                                 break;
                             case "TimeOnly":
                                 value = TimeOnly.FromDateTime(Convert.ToDateTime(value));
@@ -64,6 +64,19 @@ namespace Excel.Loader.WebApp.Services
             }
 
             return data;
-        }        
+        }
+
+        private static DateTime TryDateTimeConvert(object value)
+        {
+            DateTime returnValue = default;
+            if (!DateTime.TryParse(value.ToString(), out returnValue))
+            {
+                returnValue = DateTime.FromOADate((double)value);
+            }
+
+            return returnValue;
+        }
     }
+
+    
 }
