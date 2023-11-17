@@ -1648,3 +1648,205 @@ OfficeOpenXml.LicenseException: Please set the ExcelPackage.LicenseContext prope
 ""SELECT [p].[ID], [p].[PackageName], [p].[ProjectName]
 FROM [Projects] AS [p]
 WHERE [p].[PackageName] = @__packageName_0" (0723d8ff)
+2023-11-17T13:44:06.2499885+02:00  [INF] Now listening on: "https://localhost:7267" (d826f4b8)
+2023-11-17T13:44:06.2533047+02:00  [INF] Now listening on: "http://localhost:5059" (d826f4b8)
+2023-11-17T13:44:06.2618340+02:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2023-11-17T13:44:06.2633717+02:00  [INF] Hosting environment: "Development" (c3307c92)
+2023-11-17T13:44:06.2669329+02:00  [INF] Content root path: "C:\Users\veaceslav.chirilov\source\repos\github\GreenKing.ExcelProcessor\Excel.Loader.WebApp\" (b5d60022)
+2023-11-17T13:44:18.5469865+02:00 0HMV7CA0LIDHU:0000000D [INF] Executed DbCommand ("225"ms) [Parameters=["@__packageName_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [p].[ID], [p].[PackageName], [p].[ProjectName]
+FROM [Projects] AS [p]
+WHERE [p].[PackageName] = @__packageName_0" (0723d8ff)
+2023-11-17T13:44:18.7609682+02:00 0HMV7CA0LIDHU:0000000D [INF] Executed DbCommand ("73"ms) [Parameters=["@__packageName_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [p].[PackageName], [p].[Author], [p].[ChildPackages], [p].[ID], [p].[Location], [p].[Overview], [p].[Technology]
+FROM [Packages] AS [p]
+WHERE [p].[PackageName] = @__packageName_0" (0723d8ff)
+2023-11-17T13:45:44.1730316+02:00  [INF] Now listening on: "https://localhost:7267" (d826f4b8)
+2023-11-17T13:45:44.1782205+02:00  [INF] Now listening on: "http://localhost:5059" (d826f4b8)
+2023-11-17T13:45:44.1898386+02:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2023-11-17T13:45:44.1949053+02:00  [INF] Hosting environment: "Development" (c3307c92)
+2023-11-17T13:45:44.1960875+02:00  [INF] Content root path: "C:\Users\veaceslav.chirilov\source\repos\github\GreenKing.ExcelProcessor\Excel.Loader.WebApp\" (b5d60022)
+2023-11-17T13:45:50.5914361+02:00 0HMV7CATQLV8D:0000000D [INF] Executed DbCommand ("152"ms) [Parameters=["@__packageName_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [p].[ID], [p].[PackageName], [p].[ProjectName]
+FROM [Projects] AS [p]
+WHERE [p].[PackageName] = @__packageName_0" (0723d8ff)
+2023-11-17T13:45:50.8016562+02:00 0HMV7CATQLV8D:0000000D [INF] Executed DbCommand ("71"ms) [Parameters=["@__packageName_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [p].[PackageName], [p].[Author], [p].[ChildPackages], [p].[ID], [p].[Location], [p].[Overview], [p].[Technology]
+FROM [Packages] AS [p]
+WHERE [p].[PackageName] = @__packageName_0" (0723d8ff)
+2023-11-17T14:27:15.1086105+02:00  [INF] Now listening on: "https://localhost:7267" (d826f4b8)
+2023-11-17T14:27:15.1123104+02:00  [INF] Now listening on: "http://localhost:5059" (d826f4b8)
+2023-11-17T14:27:15.1215204+02:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2023-11-17T14:27:15.1258916+02:00  [INF] Hosting environment: "Development" (c3307c92)
+2023-11-17T14:27:15.1269127+02:00  [INF] Content root path: "C:\Users\veaceslav.chirilov\source\repos\github\GreenKing.ExcelProcessor\Excel.Loader.WebApp\" (b5d60022)
+2023-11-17T14:27:28.5359160+02:00 0HMV7D243PQTJ:0000000F [INF] Executed DbCommand ("283"ms) [Parameters=["@__packageName_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [p].[ID], [p].[PackageName], [p].[ProjectName]
+FROM [Projects] AS [p]
+WHERE [p].[PackageName] = @__packageName_0" (0723d8ff)
+2023-11-17T14:27:28.7897993+02:00 0HMV7D243PQTJ:0000000F [INF] Executed DbCommand ("72"ms) [Parameters=["@__packageName_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [p].[PackageName], [p].[Author], [p].[ChildPackages], [p].[ID], [p].[Location], [p].[Overview], [p].[Technology]
+FROM [Packages] AS [p]
+WHERE [p].[PackageName] = @__packageName_0" (0723d8ff)
+2023-11-17T14:27:28.9339823+02:00 0HMV7D243PQTJ:0000000F [INF] Executed DbCommand ("70"ms) [Parameters=["@__packageName_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [p].[ID], [p].[PackageName], [p].[ParameterName], [p].[ParameterType]
+FROM [PackageParameters] AS [p]
+WHERE [p].[PackageName] = @__packageName_0" (0723d8ff)
+2023-11-17T14:27:29.0356462+02:00 0HMV7D243PQTJ:0000000F [INF] Executed DbCommand ("69"ms) [Parameters=["@__packageName_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [s].[ID], [s].[DatabaseOrFilePath], [s].[PackageName], [s].[Server], [s].[SourceType]
+FROM [Sources] AS [s]
+WHERE [s].[PackageName] = @__packageName_0" (0723d8ff)
+2023-11-17T14:28:44.7333715+02:00  [INF] Now listening on: "https://localhost:7267" (d826f4b8)
+2023-11-17T14:28:44.7369490+02:00  [INF] Now listening on: "http://localhost:5059" (d826f4b8)
+2023-11-17T14:28:44.7455746+02:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2023-11-17T14:28:44.7471389+02:00  [INF] Hosting environment: "Development" (c3307c92)
+2023-11-17T14:28:44.7481490+02:00  [INF] Content root path: "C:\Users\veaceslav.chirilov\source\repos\github\GreenKing.ExcelProcessor\Excel.Loader.WebApp\" (b5d60022)
+2023-11-17T14:28:59.9572652+02:00 0HMV7D2UUHAS0:0000000D [INF] Executed DbCommand ("197"ms) [Parameters=["@__packageName_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [p].[ID], [p].[PackageName], [p].[ProjectName]
+FROM [Projects] AS [p]
+WHERE [p].[PackageName] = @__packageName_0" (0723d8ff)
+2023-11-17T14:29:00.1969298+02:00 0HMV7D2UUHAS0:0000000D [INF] Executed DbCommand ("70"ms) [Parameters=["@__packageName_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [p].[PackageName], [p].[Author], [p].[ChildPackages], [p].[ID], [p].[Location], [p].[Overview], [p].[Technology]
+FROM [Packages] AS [p]
+WHERE [p].[PackageName] = @__packageName_0" (0723d8ff)
+2023-11-17T14:29:00.3623221+02:00 0HMV7D2UUHAS0:0000000D [INF] Executed DbCommand ("65"ms) [Parameters=["@__packageName_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [p].[ID], [p].[PackageName], [p].[ParameterName], [p].[ParameterType]
+FROM [PackageParameters] AS [p]
+WHERE [p].[PackageName] = @__packageName_0" (0723d8ff)
+2023-11-17T14:29:00.4588758+02:00 0HMV7D2UUHAS0:0000000D [INF] Executed DbCommand ("64"ms) [Parameters=["@__packageName_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [s].[ID], [s].[DatabaseOrFilePath], [s].[PackageName], [s].[Server], [s].[SourceType]
+FROM [Sources] AS [s]
+WHERE [s].[PackageName] = @__packageName_0" (0723d8ff)
+2023-11-17T14:31:08.4122717+02:00  [INF] Now listening on: "https://localhost:7267" (d826f4b8)
+2023-11-17T14:31:08.4155688+02:00  [INF] Now listening on: "http://localhost:5059" (d826f4b8)
+2023-11-17T14:31:08.4241510+02:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2023-11-17T14:31:08.4256200+02:00  [INF] Hosting environment: "Development" (c3307c92)
+2023-11-17T14:31:08.4265283+02:00  [INF] Content root path: "C:\Users\veaceslav.chirilov\source\repos\github\GreenKing.ExcelProcessor\Excel.Loader.WebApp\" (b5d60022)
+2023-11-17T14:31:19.0567306+02:00 0HMV7D49KNFVL:0000000D [INF] Executed DbCommand ("184"ms) [Parameters=["@__packageName_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [p].[ID], [p].[PackageName], [p].[ProjectName]
+FROM [Projects] AS [p]
+WHERE [p].[PackageName] = @__packageName_0" (0723d8ff)
+2023-11-17T14:31:19.2636914+02:00 0HMV7D49KNFVL:0000000D [INF] Executed DbCommand ("71"ms) [Parameters=["@__packageName_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [p].[PackageName], [p].[Author], [p].[ChildPackages], [p].[ID], [p].[Location], [p].[Overview], [p].[Technology]
+FROM [Packages] AS [p]
+WHERE [p].[PackageName] = @__packageName_0" (0723d8ff)
+2023-11-17T14:31:19.4183135+02:00 0HMV7D49KNFVL:0000000D [INF] Executed DbCommand ("67"ms) [Parameters=["@__packageName_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [p].[ID], [p].[PackageName], [p].[ParameterName], [p].[ParameterType]
+FROM [PackageParameters] AS [p]
+WHERE [p].[PackageName] = @__packageName_0" (0723d8ff)
+2023-11-17T14:31:23.4520933+02:00 0HMV7D49KNFVL:0000000D [INF] Executed DbCommand ("68"ms) [Parameters=["@__packageName_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [s].[ID], [s].[DatabaseOrFilePath], [s].[PackageName], [s].[Server], [s].[SourceType]
+FROM [Sources] AS [s]
+WHERE [s].[PackageName] = @__packageName_0" (0723d8ff)
+2023-11-17T14:32:30.0763485+02:00  [INF] Now listening on: "https://localhost:7267" (d826f4b8)
+2023-11-17T14:32:30.0797017+02:00  [INF] Now listening on: "http://localhost:5059" (d826f4b8)
+2023-11-17T14:32:30.0884438+02:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2023-11-17T14:32:30.0899444+02:00  [INF] Hosting environment: "Development" (c3307c92)
+2023-11-17T14:32:30.0922395+02:00  [INF] Content root path: "C:\Users\veaceslav.chirilov\source\repos\github\GreenKing.ExcelProcessor\Excel.Loader.WebApp\" (b5d60022)
+2023-11-17T14:32:36.8396659+02:00 0HMV7D522GIQE:0000000D [INF] Executed DbCommand ("184"ms) [Parameters=["@__packageName_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [p].[ID], [p].[PackageName], [p].[ProjectName]
+FROM [Projects] AS [p]
+WHERE [p].[PackageName] = @__packageName_0" (0723d8ff)
+2023-11-17T14:32:37.1024071+02:00 0HMV7D522GIQE:0000000D [INF] Executed DbCommand ("69"ms) [Parameters=["@__packageName_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [p].[PackageName], [p].[Author], [p].[ChildPackages], [p].[ID], [p].[Location], [p].[Overview], [p].[Technology]
+FROM [Packages] AS [p]
+WHERE [p].[PackageName] = @__packageName_0" (0723d8ff)
+2023-11-17T14:32:37.2350611+02:00 0HMV7D522GIQE:0000000D [INF] Executed DbCommand ("64"ms) [Parameters=["@__packageName_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [p].[ID], [p].[PackageName], [p].[ParameterName], [p].[ParameterType]
+FROM [PackageParameters] AS [p]
+WHERE [p].[PackageName] = @__packageName_0" (0723d8ff)
+2023-11-17T14:32:41.7182091+02:00 0HMV7D522GIQE:0000000D [INF] Executed DbCommand ("64"ms) [Parameters=["@__packageName_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [s].[ID], [s].[DatabaseOrFilePath], [s].[PackageName], [s].[Server], [s].[SourceType]
+FROM [Sources] AS [s]
+WHERE [s].[PackageName] = @__packageName_0" (0723d8ff)
+2023-11-17T14:35:33.7184161+02:00  [INF] Now listening on: "https://localhost:7267" (d826f4b8)
+2023-11-17T14:35:33.7227486+02:00  [INF] Now listening on: "http://localhost:5059" (d826f4b8)
+2023-11-17T14:35:33.7372232+02:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2023-11-17T14:35:33.7424331+02:00  [INF] Hosting environment: "Development" (c3307c92)
+2023-11-17T14:35:33.7436249+02:00  [INF] Content root path: "C:\Users\veaceslav.chirilov\source\repos\github\GreenKing.ExcelProcessor\Excel.Loader.WebApp\" (b5d60022)
+2023-11-17T14:35:39.6144093+02:00 0HMV7D6OQ5P0B:0000000F [INF] Executed DbCommand ("142"ms) [Parameters=["@__packageName_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [p].[ID], [p].[PackageName], [p].[ProjectName]
+FROM [Projects] AS [p]
+WHERE [p].[PackageName] = @__packageName_0" (0723d8ff)
+2023-11-17T14:35:39.7618718+02:00 0HMV7D6OQ5P0B:0000000F [INF] Executed DbCommand ("72"ms) [Parameters=["@__packageName_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [p].[PackageName], [p].[Author], [p].[ChildPackages], [p].[ID], [p].[Location], [p].[Overview], [p].[Technology]
+FROM [Packages] AS [p]
+WHERE [p].[PackageName] = @__packageName_0" (0723d8ff)
+2023-11-17T14:35:39.8843072+02:00 0HMV7D6OQ5P0B:0000000F [INF] Executed DbCommand ("70"ms) [Parameters=["@__packageName_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [p].[ID], [p].[PackageName], [p].[ParameterName], [p].[ParameterType]
+FROM [PackageParameters] AS [p]
+WHERE [p].[PackageName] = @__packageName_0" (0723d8ff)
+2023-11-17T14:35:39.9749052+02:00 0HMV7D6OQ5P0B:0000000F [INF] Executed DbCommand ("67"ms) [Parameters=["@__packageName_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [s].[ID], [s].[DatabaseOrFilePath], [s].[PackageName], [s].[Server], [s].[SourceType]
+FROM [Sources] AS [s]
+WHERE [s].[PackageName] = @__packageName_0" (0723d8ff)
+2023-11-17T14:39:41.7958511+02:00  [INF] Now listening on: "https://localhost:7267" (d826f4b8)
+2023-11-17T14:39:41.7991803+02:00  [INF] Now listening on: "http://localhost:5059" (d826f4b8)
+2023-11-17T14:39:41.8075483+02:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2023-11-17T14:39:41.8114511+02:00  [INF] Hosting environment: "Development" (c3307c92)
+2023-11-17T14:39:41.8131544+02:00  [INF] Content root path: "C:\Users\veaceslav.chirilov\source\repos\github\GreenKing.ExcelProcessor\Excel.Loader.WebApp\" (b5d60022)
+2023-11-17T14:39:47.6965623+02:00 0HMV7D92OFVI9:0000000D [INF] Executed DbCommand ("131"ms) [Parameters=["@__packageName_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [p].[ID], [p].[PackageName], [p].[ProjectName]
+FROM [Projects] AS [p]
+WHERE [p].[PackageName] = @__packageName_0" (0723d8ff)
+2023-11-17T14:39:47.8477985+02:00 0HMV7D92OFVI9:0000000D [INF] Executed DbCommand ("72"ms) [Parameters=["@__packageName_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [p].[PackageName], [p].[Author], [p].[ChildPackages], [p].[ID], [p].[Location], [p].[Overview], [p].[Technology]
+FROM [Packages] AS [p]
+WHERE [p].[PackageName] = @__packageName_0" (0723d8ff)
+2023-11-17T14:39:47.9715691+02:00 0HMV7D92OFVI9:0000000D [INF] Executed DbCommand ("68"ms) [Parameters=["@__packageName_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [p].[ID], [p].[PackageName], [p].[ParameterName], [p].[ParameterType]
+FROM [PackageParameters] AS [p]
+WHERE [p].[PackageName] = @__packageName_0" (0723d8ff)
+2023-11-17T14:39:48.0632855+02:00 0HMV7D92OFVI9:0000000D [INF] Executed DbCommand ("70"ms) [Parameters=["@__packageName_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [s].[ID], [s].[DatabaseOrFilePath], [s].[PackageName], [s].[Server], [s].[SourceType]
+FROM [Sources] AS [s]
+WHERE [s].[PackageName] = @__packageName_0" (0723d8ff)
+2023-11-17T14:40:29.8368799+02:00  [INF] Now listening on: "https://localhost:7267" (d826f4b8)
+2023-11-17T14:40:29.8402927+02:00  [INF] Now listening on: "http://localhost:5059" (d826f4b8)
+2023-11-17T14:40:29.8485753+02:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2023-11-17T14:40:29.8500040+02:00  [INF] Hosting environment: "Development" (c3307c92)
+2023-11-17T14:40:29.8540557+02:00  [INF] Content root path: "C:\Users\veaceslav.chirilov\source\repos\github\GreenKing.ExcelProcessor\Excel.Loader.WebApp\" (b5d60022)
+2023-11-17T14:40:35.9847843+02:00 0HMV7D9H3C6P3:0000000D [INF] Executed DbCommand ("128"ms) [Parameters=["@__packageName_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [p].[ID], [p].[PackageName], [p].[ProjectName]
+FROM [Projects] AS [p]
+WHERE [p].[PackageName] = @__packageName_0" (0723d8ff)
+2023-11-17T14:40:36.1405017+02:00 0HMV7D9H3C6P3:0000000D [INF] Executed DbCommand ("79"ms) [Parameters=["@__packageName_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [p].[PackageName], [p].[Author], [p].[ChildPackages], [p].[ID], [p].[Location], [p].[Overview], [p].[Technology]
+FROM [Packages] AS [p]
+WHERE [p].[PackageName] = @__packageName_0" (0723d8ff)
+2023-11-17T14:40:36.2556100+02:00 0HMV7D9H3C6P3:0000000D [INF] Executed DbCommand ("61"ms) [Parameters=["@__packageName_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [p].[ID], [p].[PackageName], [p].[ParameterName], [p].[ParameterType]
+FROM [PackageParameters] AS [p]
+WHERE [p].[PackageName] = @__packageName_0" (0723d8ff)
+2023-11-17T14:40:36.3360098+02:00 0HMV7D9H3C6P3:0000000D [INF] Executed DbCommand ("61"ms) [Parameters=["@__packageName_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [s].[ID], [s].[DatabaseOrFilePath], [s].[PackageName], [s].[Server], [s].[SourceType]
+FROM [Sources] AS [s]
+WHERE [s].[PackageName] = @__packageName_0" (0723d8ff)
+2023-11-17T14:51:10.2138206+02:00  [INF] Now listening on: "https://localhost:7267" (d826f4b8)
+2023-11-17T14:51:10.2171803+02:00  [INF] Now listening on: "http://localhost:5059" (d826f4b8)
+2023-11-17T14:51:10.2254858+02:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2023-11-17T14:51:10.2268738+02:00  [INF] Hosting environment: "Development" (c3307c92)
+2023-11-17T14:51:10.2277611+02:00  [INF] Content root path: "C:\Users\veaceslav.chirilov\source\repos\github\GreenKing.ExcelProcessor\Excel.Loader.WebApp\" (b5d60022)
+2023-11-17T14:51:17.1134267+02:00 0HMV7DFFS3173:0000000F [INF] Executed DbCommand ("189"ms) [Parameters=["@__packageName_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [p].[ID], [p].[PackageName], [p].[ProjectName]
+FROM [Projects] AS [p]
+WHERE [p].[PackageName] = @__packageName_0" (0723d8ff)
+2023-11-17T14:51:17.2563574+02:00 0HMV7DFFS3173:0000000F [INF] Executed DbCommand ("65"ms) [Parameters=["@__packageName_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [p].[PackageName], [p].[Author], [p].[ChildPackages], [p].[ID], [p].[Location], [p].[Overview], [p].[Technology]
+FROM [Packages] AS [p]
+WHERE [p].[PackageName] = @__packageName_0" (0723d8ff)
+2023-11-17T14:51:17.3731165+02:00 0HMV7DFFS3173:0000000F [INF] Executed DbCommand ("64"ms) [Parameters=["@__packageName_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [p].[ID], [p].[PackageName], [p].[ParameterName], [p].[ParameterType]
+FROM [PackageParameters] AS [p]
+WHERE [p].[PackageName] = @__packageName_0" (0723d8ff)
+2023-11-17T14:51:17.4605676+02:00 0HMV7DFFS3173:0000000F [INF] Executed DbCommand ("62"ms) [Parameters=["@__packageName_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [s].[ID], [s].[DatabaseOrFilePath], [s].[PackageName], [s].[Server], [s].[SourceType]
+FROM [Sources] AS [s]
+WHERE [s].[PackageName] = @__packageName_0" (0723d8ff)
+2023-11-17T14:51:17.5433593+02:00 0HMV7DFFS3173:0000000F [INF] Executed DbCommand ("64"ms) [Parameters=["@__packageName_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [d].[ID], [d].[DatabaseOrFilePath], [d].[DestinationType], [d].[PackageName], [d].[Server]
+FROM [Destinations] AS [d]
+WHERE [d].[PackageName] = @__packageName_0" (0723d8ff)
+2023-11-17T14:51:17.6202239+02:00 0HMV7DFFS3173:0000000F [INF] Executed DbCommand ("64"ms) [Parameters=["@__packageName_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [s].[ID], [s].[ColumnName], [s].[DatabaseOrFilePath], [s].[PackageName], [s].[Read], [s].[Server], [s].[TableName], [s].[Write]
+FROM [SourceTransformations] AS [s]
+WHERE [s].[PackageName] = @__packageName_0" (0723d8ff)

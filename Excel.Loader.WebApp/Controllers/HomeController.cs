@@ -42,7 +42,7 @@ namespace Excel.Loader.WebApp.Controllers
         {
             var stream = await _excelFileService.DownloadPackage(model.PackageName);
 
-            string xlsFileName = $"{model.PackageName}.xlsx";
+            string xlsFileName = $"{model.PackageName}_{DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss")}.xlsx";
 
             return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", xlsFileName);
         }
