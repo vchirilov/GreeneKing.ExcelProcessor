@@ -1879,3 +1879,8 @@ WHERE [d].[PackageName] = @__packageName_0" (0723d8ff)
 ""SELECT [s].[ID], [s].[ColumnName], [s].[DatabaseOrFilePath], [s].[PackageName], [s].[Read], [s].[Server], [s].[TableName], [s].[Write]
 FROM [SourceTransformations] AS [s]
 WHERE [s].[PackageName] = @__packageName_0" (0723d8ff)
+2023-11-17T17:07:15.7200924+02:00  [INF] Now listening on: "https://localhost:7267" (d826f4b8)
+2023-11-17T17:07:15.7242622+02:00  [INF] Now listening on: "http://localhost:5059" (d826f4b8)
+2023-11-17T17:07:15.7334464+02:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2023-11-17T17:07:15.7349750+02:00  [INF] Hosting environment: "Development" (c3307c92)
+2023-11-17T17:07:15.7360416+02:00  [INF] Content root path: "C:\Users\veaceslav.chirilov\source\repos\github\GreenKing.ExcelProcessor\Excel.Loader.WebApp\" (b5d60022)
