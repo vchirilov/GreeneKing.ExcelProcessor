@@ -46,7 +46,9 @@ namespace Excel.Loader.WebApp.Controllers
                 await ProcessImageFile(model.PackageName, FlowType.ControlFlow, model.UploadControlFlowImages, cancellationToken);
                 await ProcessImageFile(model.PackageName, FlowType.DataFlow, model.UploadDataFlowImages, cancellationToken);
 
-                return Ok();
+                ViewBag.PackageName += string.Format("Package <b>{0}</b> uploaded successfully.<br/>", model.PackageName);
+
+                return View("Index");
             }
             catch (Exception)
             {
@@ -57,32 +59,35 @@ namespace Excel.Loader.WebApp.Controllers
                 
         private async Task ProcessXlsFile(string packageName, IFormFile xlsFile, CancellationToken cancellationToken)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (xlsFile == null || xlsFile.Length == 0)
+                try
                 {
-                    await Task.FromResult(false);
-                }
+                    if (xlsFile == null || xlsFile.Length == 0)
+                    {
+                        await Task.FromResult(false);
+                    }
 
-                // Check the file extension. Excel files typically have .xlsx or .xls extensions
-                if (!xlsFile.FileName.EndsWith(".xlsx") && !xlsFile.FileName.EndsWith(".xls"))
+                    // Check the file extension. Excel files typically have .xlsx or .xls extensions
+                    if (!xlsFile.FileName.EndsWith(".xlsx") && !xlsFile.FileName.EndsWith(".xls"))
+                    {
+                        await Task.FromResult(false);
+                    }
+
+                    var packages = new List<Packages>();
+
+                    using var stream = new MemoryStream();
+                    var sheets = "Projects,Packages,Parameters,Sources,Destinations,SourceTransformation,DestinationTransformation,Mappings,Executables,Jobs,JobHistory".Split(',');
+
+                    await xlsFile.CopyToAsync(stream, cancellationToken);
+                    await _excelFileService.SavePackage(packageName, stream, sheets);
+                }
+                catch (Exception ex)
                 {
-                    await Task.FromResult(false);
+                    _logger.LogError(ex.Message);
+                    throw;
                 }
-
-                var packages = new List<Packages>();
-
-                using var stream = new MemoryStream();
-                var sheets = "Projects,Packages,Parameters,Sources,Destinations,SourceTransformation,DestinationTransformation,Mappings,Executables,Jobs,JobHistory".Split(',');
-
-                await xlsFile.CopyToAsync(stream, cancellationToken);
-                await _excelFileService.SavePackage(packageName, stream, sheets);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message);
-                throw;
-            }
+            }            
         }
 
         private async Task ProcessImageFile(string packageName, FlowType flowType, List<IFormFile> imageFiles, CancellationToken cancellationToken)
