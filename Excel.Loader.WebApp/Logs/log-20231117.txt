@@ -1850,3 +1850,32 @@ WHERE [d].[PackageName] = @__packageName_0" (0723d8ff)
 ""SELECT [s].[ID], [s].[ColumnName], [s].[DatabaseOrFilePath], [s].[PackageName], [s].[Read], [s].[Server], [s].[TableName], [s].[Write]
 FROM [SourceTransformations] AS [s]
 WHERE [s].[PackageName] = @__packageName_0" (0723d8ff)
+2023-11-17T16:40:08.6738021+02:00  [INF] Now listening on: "https://localhost:7267" (d826f4b8)
+2023-11-17T16:40:08.6773198+02:00  [INF] Now listening on: "http://localhost:5059" (d826f4b8)
+2023-11-17T16:40:08.6856492+02:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2023-11-17T16:40:08.6869972+02:00  [INF] Hosting environment: "Development" (c3307c92)
+2023-11-17T16:40:08.6883852+02:00  [INF] Content root path: "C:\Users\veaceslav.chirilov\source\repos\github\GreenKing.ExcelProcessor\Excel.Loader.WebApp\" (b5d60022)
+2023-11-17T16:46:44.6905584+02:00 0HMV7FCCHH8U7:0000006F [INF] Executed DbCommand ("188"ms) [Parameters=["@__packageName_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [p].[ID], [p].[PackageName], [p].[ProjectName]
+FROM [Projects] AS [p]
+WHERE [p].[PackageName] = @__packageName_0" (0723d8ff)
+2023-11-17T16:46:44.8501613+02:00 0HMV7FCCHH8U7:0000006F [INF] Executed DbCommand ("71"ms) [Parameters=["@__packageName_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [p].[PackageName], [p].[Author], [p].[ChildPackages], [p].[ID], [p].[Location], [p].[Overview], [p].[Technology]
+FROM [Packages] AS [p]
+WHERE [p].[PackageName] = @__packageName_0" (0723d8ff)
+2023-11-17T16:46:44.9792883+02:00 0HMV7FCCHH8U7:0000006F [INF] Executed DbCommand ("67"ms) [Parameters=["@__packageName_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [p].[ID], [p].[PackageName], [p].[ParameterName], [p].[ParameterType]
+FROM [PackageParameters] AS [p]
+WHERE [p].[PackageName] = @__packageName_0" (0723d8ff)
+2023-11-17T16:46:45.0719223+02:00 0HMV7FCCHH8U7:0000006F [INF] Executed DbCommand ("66"ms) [Parameters=["@__packageName_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [s].[ID], [s].[DatabaseOrFilePath], [s].[PackageName], [s].[Server], [s].[SourceType]
+FROM [Sources] AS [s]
+WHERE [s].[PackageName] = @__packageName_0" (0723d8ff)
+2023-11-17T16:46:45.1700629+02:00 0HMV7FCCHH8U7:0000006F [INF] Executed DbCommand ("67"ms) [Parameters=["@__packageName_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [d].[ID], [d].[DatabaseOrFilePath], [d].[DestinationType], [d].[PackageName], [d].[Server]
+FROM [Destinations] AS [d]
+WHERE [d].[PackageName] = @__packageName_0" (0723d8ff)
+2023-11-17T16:46:45.3249048+02:00 0HMV7FCCHH8U7:0000006F [INF] Executed DbCommand ("124"ms) [Parameters=["@__packageName_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT [s].[ID], [s].[ColumnName], [s].[DatabaseOrFilePath], [s].[PackageName], [s].[Read], [s].[Server], [s].[TableName], [s].[Write]
+FROM [SourceTransformations] AS [s]
+WHERE [s].[PackageName] = @__packageName_0" (0723d8ff)
