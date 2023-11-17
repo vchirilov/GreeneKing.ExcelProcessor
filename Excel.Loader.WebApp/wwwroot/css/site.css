@@ -78,7 +78,7 @@ body {
 
 .uploadFile,
 .submitButton {
-    background-color: #0cc7d7;
+    background-color: darkslategray;
     height: 36px;
     color: rgb(255, 255, 255);
     cursor: pointer;
