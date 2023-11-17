@@ -7,5 +7,6 @@ namespace Excel.Loader.WebApp.Services
     {
         Task SavePackage(string packageName, Stream xlsStream, string[] sheets);
         Task DeletePackage(string packageName);
+        Task<Stream> DownloadPackage(string packageName);
     }    
 }

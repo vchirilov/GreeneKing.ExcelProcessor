@@ -2,6 +2,7 @@
 using Excel.Loader.WebApp.Models;
 using Excel.Loader.WebApp.Services;
 using Microsoft.AspNetCore.Mvc;
+using OfficeOpenXml;
 using System.Diagnostics;
 using System.IO;
 
@@ -29,6 +30,23 @@ namespace Excel.Loader.WebApp.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public IActionResult DownloadXlsFile()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DownloadXlsFile(FileDownloadModel model, CancellationToken cancellationToken)
+        {
+            var stream = await _excelFileService.DownloadPackage(model.PackageName);
+
+            string xlsFileName = $"{model.PackageName}.xlsx";
+
+            return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", xlsFileName);
+        }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

@@ -1,5 +1,7 @@
 ﻿using Excel.Loader.WebApp.Models;
 using Excel.Loader.WebApp.Persistence;
+using Microsoft.EntityFrameworkCore;
+using OfficeOpenXml;
 using System.Reflection.Metadata;
 
 namespace Excel.Loader.WebApp.Services
@@ -65,6 +67,25 @@ namespace Excel.Loader.WebApp.Services
 
                 await _dbContext.SaveChangesAsync();
             }
+        }
+
+        public async Task<Stream> DownloadPackage(string packageName)
+        {
+            var projects = await GetProject(packageName);
+
+            var stream = new MemoryStream();
+
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+            using (var package = new ExcelPackage(stream))
+            {
+                var workSheet = package.Workbook.Worksheets.Add(nameof(Projects));
+                workSheet.Cells.LoadFromCollection(projects, true);
+                package.Save();
+            }
+            stream.Position = 0;
+
+            return stream;
         }
 
         private Task LoadPackage()
@@ -295,6 +316,13 @@ namespace Excel.Loader.WebApp.Services
             {
                 throw;
             }
+        }
+        
+        private async Task<List<Projects>> GetProject(string packageName)
+        {
+            var dbProjects = await _dbContext.Projects.Where(p => p.PackageName == packageName).ToListAsync();
+
+            return dbProjects.Select(p => new Projects { PackageName = p.PackageName, ProjectName = p.ProjectName }).ToList();
         }
     }
 }

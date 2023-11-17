@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@model FileUploadModel
+
+
+<form form method="post" asp-controller="Home" asp-action="DownloadXlsFile" class=" mt-5" enctype="multipart/form-data">
+    <div class="form-group row">
+        <label asp-for="PackageName" class="col-sm-2 col-form-label"> Package Name</label>
+        <div class="col-sm-10">
+            <input asp-for="PackageName" class="form-control" placeholder="Name" />
+            <span asp-validation-for="PackageName" class="text-danger"></span>
+        </div>
+    </div>
+
+    <br>
+    <div class="form-group row">
+        <div class="col-sm-10">
+            <button type="submit" class="btn btn-primary">Download Package</button>
+        </div>
+    </div>
+</form>
