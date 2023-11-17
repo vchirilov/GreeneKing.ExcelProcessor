@@ -5,7 +5,7 @@
 @model FileUploadModel
 
 
-<h1>Upload file page (.xlsx)</h1>
+<h1>Upload file page (.xlsx & .png)</h1>
 
 <form form method="post" asp-controller="Home" asp-action="UploadFiles" class=" mt-5" enctype="multipart/form-data">
     <div class="form-group row">
@@ -44,5 +44,5 @@
         </div>
     </div>
     <br/>
-    <span style="color:cornflowerblue;">@Html.Raw(ViewBag.PackageName)</span>
+    <span style="color:white;">@Html.Raw(ViewBag.PackageName)</span>
 </form>
