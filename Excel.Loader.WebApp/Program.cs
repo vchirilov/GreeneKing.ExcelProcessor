@@ -1,3 +1,4 @@
+using Excel.Loader.WebApp.Options;
 using Excel.Loader.WebApp.Persistence;
 using Excel.Loader.WebApp.Services;
 using Microsoft.EntityFrameworkCore;
@@ -14,12 +15,13 @@ namespace Excel.Loader.WebApp
             builder.Services.AddControllersWithViews();
             builder.Services.AddScoped<IExcelFileService, ExcelFileService>();
             builder.Services.AddScoped<IImageService, ImageService>();
+            builder.Services.Configure<ApplicationOptions>(builder.Configuration.GetSection(ApplicationOptions.ApplicationOptionsConfigKey));
             builder.Services.AddDbContext<GreeneKingContext>(options =>
             {
                 var config = builder.Configuration;
                 var connectionString = config.GetConnectionString("GreeneKingConnectionString");
                 options.UseSqlServer(connectionString);
-            });
+            });            
 
             var app = builder.Build();
 

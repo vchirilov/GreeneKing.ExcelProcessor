@@ -1,6 +1,8 @@
 ﻿using Excel.Loader.WebApp.Models;
+using Excel.Loader.WebApp.Options;
 using Excel.Loader.WebApp.Persistence;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using OfficeOpenXml;
 using System.Reflection.Metadata;
 
@@ -9,8 +11,8 @@ namespace Excel.Loader.WebApp.Services
     public class ExcelFileService : IExcelFileService
     {
         private readonly ILogger<ExcelFileService> _logger;
-
-        GreeneKingContext _dbContext;
+        private readonly ApplicationOptions _options;
+        private readonly GreeneKingContext _dbContext;
 
         List<Projects> dsProjects = null;
         List<Packages> dsPackages = null;
@@ -24,15 +26,16 @@ namespace Excel.Loader.WebApp.Services
         List<Jobs> dsJobs = null;
         List<JobHistory> dsJobHistory = null;
 
-        public ExcelFileService(ILogger<ExcelFileService> logger, GreeneKingContext dbContext)
+        public ExcelFileService(ILogger<ExcelFileService> logger, GreeneKingContext dbContext, IOptions<ApplicationOptions> options)
         {
             _logger = logger;
             _dbContext = dbContext;
+            _options = options.Value;
         }
 
-        public async Task SavePackage(string packageName, Stream xlsStream, string[] sheets)
+        public async Task SavePackage(string packageName, Stream xlsStream)
         {            
-            await ExtractDataFromXlsFile(xlsStream, sheets);
+            await ExtractDataFromXlsFile(xlsStream);
             await SavePackage();
         }
 
@@ -288,11 +291,11 @@ namespace Excel.Loader.WebApp.Services
             return Task.CompletedTask;
         }
 
-        private Task ExtractDataFromXlsFile(Stream xlsStream, string[] sheets)
+        private Task ExtractDataFromXlsFile(Stream xlsStream)
         {
             try
             {                
-                using (var workbook = new Workbook(xlsStream, sheets))
+                using (var workbook = new Workbook(xlsStream, _options.Sheets))
                 {
                     foreach (var worksheet in workbook.Worksheets)
                     {

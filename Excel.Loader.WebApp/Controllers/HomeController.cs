@@ -94,11 +94,9 @@ namespace Excel.Loader.WebApp.Controllers
 
                     var packages = new List<Packages>();
 
-                    using var stream = new MemoryStream();
-                    var sheets = "Projects,Packages,Parameters,Sources,Destinations,SourceTransformation,DestinationTransformation,Mappings,Executables,Jobs,JobHistory".Split(',');
-
+                    using var stream = new MemoryStream();                    
                     await xlsFile.CopyToAsync(stream, cancellationToken);
-                    await _excelFileService.SavePackage(packageName, stream, sheets);
+                    await _excelFileService.SavePackage(packageName, stream);
                 }
                 catch (Exception ex)
                 {
