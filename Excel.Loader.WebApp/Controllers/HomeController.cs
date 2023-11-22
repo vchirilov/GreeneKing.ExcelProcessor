@@ -64,7 +64,7 @@ namespace Excel.Loader.WebApp.Controllers
                 await ProcessImageFile(model.PackageName, FlowType.ControlFlow, model.UploadControlFlowImages, cancellationToken);
                 await ProcessImageFile(model.PackageName, FlowType.DataFlow, model.UploadDataFlowImages, cancellationToken);
 
-                ViewBag.PackageName += string.Format("Package <b>{0}</b> uploaded successfully.<br/>", model.PackageName);
+                ViewBag.PackageName += string.Format("<b>{0}</b> package has been processed and saved into database with success.<br/>", model.PackageName);
 
                 return View("Index");
             }

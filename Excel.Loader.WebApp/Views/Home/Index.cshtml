@@ -5,6 +5,8 @@
 @model FileUploadModel
 
 
+<h1>Upload file page (.xlsx & .png)</h1>
+
 <form form method="post" asp-controller="Home" asp-action="UploadFiles" class=" mt-5" enctype="multipart/form-data">
     <div class="form-group row">
         <label asp-for="PackageName" class="col-sm-2 col-form-label"> Package Name</label>
@@ -22,7 +24,7 @@
         </div>
     </div>
     <br>
-    <div class="form-group row">
+    <div class="form-group row ">
         <label asp-for="UploadControlFlowImages" class="col-sm-2 col-form-label">Upload Control Flows</label>
         <div class="col-sm-10">
             <input asp-for="UploadControlFlowImages" class="form-control custom-file-input" />
@@ -37,10 +39,10 @@
     </div>
     <br>
     <div class="form-group row">
-        <div class="col-sm-10">
-            <button type="submit" class="btn btn-primary">Save package</button>
+        <div class="uploadButtonContainer">
+            <button type="submit" class="submitButton">Save Package</button>
         </div>
     </div>
     <br/>
-    <span style="color:cornflowerblue;">@Html.Raw(ViewBag.PackageName)</span>
+    <span style="color:white;">@Html.Raw(ViewBag.PackageName)</span>
 </form>
