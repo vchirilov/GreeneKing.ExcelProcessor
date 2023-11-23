@@ -1,4 +1,5 @@
-﻿using Excel.Loader.WebApp.Models;
+﻿using Excel.Loader.WebApp.Helpers;
+using Excel.Loader.WebApp.Models;
 using Excel.Loader.WebApp.Options;
 using Excel.Loader.WebApp.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -46,7 +47,7 @@ namespace Excel.Loader.WebApp.Services
             await LoadParameters();
             await LoadSources();
             await LoadDestinations();
-            await LoadSourceDestinations();
+            await LoadSourceTransformations();
             await LoadDestinationTransformations();
             await LoadMappings();
             await LoadExecutables();
@@ -86,7 +87,7 @@ namespace Excel.Loader.WebApp.Services
 
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
-            using (var xlsPackage = new ExcelPackage(stream))
+            using (ExcelPackage xlsPackage = new(stream))
             {
                 var projectWorksheet = xlsPackage.Workbook.Worksheets.Add(nameof(Projects));
                 projectWorksheet.Cells.LoadFromCollection(projects, true);
@@ -115,179 +116,78 @@ namespace Excel.Loader.WebApp.Services
 
         private Task LoadPackage()
         {
-            var dbPackages = dsPackages.Select(
-                p => new Package
-                {
-                    PackageName = p.PackageName,
-                    Author = p.Author,
-                    Overview = p.Overview,
-                    Location = p.Location,
-                    Technology = p.Technology,
-                    ChildPackages = p.ChildPackages
-                });
-
-            _dbContext.Packages.AddRange(dbPackages);
+            var dalPackages = dsPackages.Select(p => (Package)p);
+            _dbContext.Packages.AddRange(dalPackages);
             return Task.CompletedTask;
         }
 
         private Task LoadProjects()
         {
-            var dbProjects = dsProjects.Select(
-                p => new Project
-                {
-                    PackageName = p.PackageName,
-                   ProjectName = p.ProjectName
-                });
-
-            _dbContext.Projects.AddRange(dbProjects);
+            var dalProjects = dsProjects.Select(p => (Project)p);
+            _dbContext.Projects.AddRange(dalProjects);
             return Task.CompletedTask;
         }
 
         private Task LoadParameters()
         {
-            var dbParameters = dsParameters.Select(
-                p => new PackageParameter
-                {
-                    PackageName = p.PackageName,
-                    ParameterName = p.ParameterName,
-                    ParameterType = p.ParameterType
-                });
-
-            _dbContext.PackageParameters.AddRange(dbParameters);
+            var dalPackageParameters = dsParameters.Select(p => (PackageParameter)p);
+            _dbContext.PackageParameters.AddRange(dalPackageParameters);
             return Task.CompletedTask;
         }
 
         private Task LoadSources()
         {
-            var dbSources = dsSources.Select(
-                p => new Source
-                {
-                    Server = p.Server,
-                    DatabaseOrFilePath = p.DatabaseOrFilePath,
-                    SourceType = p.SourceType,
-                    PackageName = p.PackageName
-                });
-
-            _dbContext.Sources.AddRange(dbSources);
+            var dalSources = dsSources.Select(s => (Source)s);
+            _dbContext.Sources.AddRange(dalSources);
             return Task.CompletedTask;
         }
 
         private Task LoadDestinations()
         {
-            var dbDestinations = dsDestinations.Select(
-                p => new Destination
-                {
-                    Server = p.Server,
-                    DatabaseOrFilePath = p.DatabaseOrFilePath,
-                    DestinationType = p.DestinationType,
-                    PackageName = p.PackageName
-                });
-
-            _dbContext.Destinations.AddRange(dbDestinations);
+            var dalDestinations = dsDestinations.Select(d => (Destination)d);
+            _dbContext.Destinations.AddRange(dalDestinations);
             return Task.CompletedTask;
         }
 
-        private Task LoadSourceDestinations()
+        private Task LoadSourceTransformations()
         {
-            var dbSourceDestinations = dsSourceTransformations.Select(
-                p => new Persistence.SourceTransformation
-                {
-                    Server = p.Server,
-                    DatabaseOrFilePath = p.DatabaseOrFilePath,
-                    TableName = p.TableName,
-                    ColumnName = p.ColumnName,
-                    Read = p.Read,
-                    Write = p.Write,
-                    PackageName = p.PackageName
-                });
-
-            _dbContext.SourceTransformations.AddRange(dbSourceDestinations);
+            var dalSourceDestinations = dsSourceTransformations.Select(p => (Persistence.SourceTransformation)p);
+            _dbContext.SourceTransformations.AddRange(dalSourceDestinations);
             return Task.CompletedTask;
         }
 
         private Task LoadDestinationTransformations()
         {
-            var dbSourceTransformations = dsDestinationTransformation.Select(
-                p => new Persistence.DestinationTransformation
-                {
-                    Server = p.Server,
-                    DatabaseOrFilePath = p.DatabaseOrFilePath,
-                    TableName = p.TableName,
-                    ColumnName = p.ColumnName,
-                    Read = p.Read,
-                    Write = p.Write,
-                    PackageName = p.PackageName
-                });
-
-            _dbContext.DestinationTransformations.AddRange(dbSourceTransformations);
+            var dalDestinationTransformations = dsDestinationTransformation.Select(dt => (Persistence.DestinationTransformation)dt);
+            _dbContext.DestinationTransformations.AddRange(dalDestinationTransformations);
             return Task.CompletedTask;
         }
 
         private Task LoadMappings()
         {
-            var dbMappings = dsMappings.Select(
-                p => new Mapping
-                {
-                    SourceServer = p.SourceServer,
-                    SourceDatabase = p.SourceDatabase,
-                    SourceTable = p.SourceTable,
-                    SourceTableColumn = p.SourceTableColumn,
-                    Transformation = p.Transformation,
-                    DestinationServer = p.DestinationServer,
-                    DestinationDatabase = p.DestinationDatabase,
-                    DestinationTable = p.DestinationTable, 
-                    DestinationTableColumn = p.DestinationTableColumn,                   
-                    PackageName = p.PackageName
-                });
-
-            _dbContext.Mappings.AddRange(dbMappings);
+            var dalMappings = dsMappings.Select(m => (Mapping)m);
+            _dbContext.Mappings.AddRange(dalMappings);
             return Task.CompletedTask;
         }
 
         private Task LoadExecutables()
         {
-            var dbExecutables = dsExecutables.Select(
-                p => new Executable
-                {                    
-                    PackageName = p.PackageName,
-                    ExecutableName = p.ExecutableName,
-                    ExecutableType = p.ExecutableType,
-                    ExecutedOnServer = p.ExecutedOnServer,
-                    ExecutedOnDatabase = p.ExecutedOnDatabase
-                });
-
-            _dbContext.Executables.AddRange(dbExecutables);
+            var dalExecutables = dsExecutables.Select(exe => (Executable)exe );
+            _dbContext.Executables.AddRange(dalExecutables);
             return Task.CompletedTask;
         }
 
         private Task LoadJobs()
         {
-            var dbJobs = dsJobs.Select(
-                p => new Job
-                {
-                    JobName = p.JobName,
-                    Frequency = p.Frequency,
-                    LastUsed = p.LastUsed,
-                    PackageName = p.PackageName
-                });
-
-            _dbContext.Jobs.AddRange(dbJobs);
+            var dalJobs = dsJobs.Select(j => (Job)j);
+            _dbContext.Jobs.AddRange(dalJobs);
             return Task.CompletedTask;
         }
 
         private Task LoadJobHistory()
         {
-            var dbJobHistory = dsJobHistory.Select(
-                p => new JobsHistory
-                {
-                    JobName = p.JobName,
-                    StepName = p.StepName,
-                    LastRunDateTime = p.LastRunDateTime,
-                    LastRunDuration = p.LastRunDuration.ToTimeSpan(),
-                    PackageName = p.PackageName
-                });
-
-            _dbContext.JobsHistories.AddRange(dbJobHistory);
+            var dalJobHistory = dsJobHistory.Select(j => (JobsHistory)j);
+            _dbContext.JobsHistories.AddRange(dalJobHistory);
             return Task.CompletedTask;
         }
 
@@ -337,32 +237,26 @@ namespace Excel.Loader.WebApp.Services
 
                 return Task.CompletedTask;
             }
-            catch (Exception)
+            catch (ApplicationError err)
             {
-                throw;
+                throw err;
+            }
+            catch (Exception exc)
+            {
+                throw ApplicationError.Create(exc);
             }
         }
         
         private async Task<List<Projects>> GetProjects(string packageName)
         {
             var dbProjects = await _dbContext.Projects.Where(p => p.PackageName == packageName).ToListAsync();
-
-            return dbProjects.Select(p => new Projects { PackageName = p.PackageName, ProjectName = p.ProjectName }).ToList();
+            return dbProjects.Select(p => (Projects)p).ToList();
         }
 
         private async Task<List<Packages>> GetPackages(string packageName)
         {
-            var dbPackages = await _dbContext.Packages.Where(p => p.PackageName == packageName).ToListAsync();
-
-            return dbPackages.Select(p => new Packages 
-            { 
-                PackageName = p.PackageName, 
-                Author = p.Author, 
-                Location = p.Location, 
-                Overview = p.Overview, 
-                Technology = p.Technology, 
-                ChildPackages = p.ChildPackages }
-            ).ToList();
+            var dalPackages = await _dbContext.Packages.Where(p => p.PackageName == packageName).ToListAsync();
+            return dalPackages.Select(p => (Packages)p).ToList();
         }
 
         private async Task<List<Parameters>> GetParameters(string packageName)
@@ -393,16 +287,8 @@ namespace Excel.Loader.WebApp.Services
 
         private async Task<List<Destinations>> GetDestinations(string packageName)
         {
-            var dsDestinations = await _dbContext.Destinations.Where(p => p.PackageName == packageName).ToListAsync();
-
-            return dsDestinations.Select(p => new Destinations
-            {
-                Server = p.Server,
-                DatabaseOrFilePath = p.DatabaseOrFilePath,
-                DestinationType = p.DestinationType,
-                PackageName = p.PackageName
-            }
-            ).ToList();
+            var dalDestinations = await _dbContext.Destinations.Where(p => p.PackageName == packageName).ToListAsync();
+            return dalDestinations.Select(d => (Destinations)d).ToList();
         }
 
         private async Task<List<Models.SourceTransformation>> GetSourceDestinations(string packageName)

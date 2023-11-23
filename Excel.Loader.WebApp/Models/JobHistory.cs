@@ -1,4 +1,5 @@
 ﻿using Excel.Loader.WebApp.Helpers;
+using Excel.Loader.WebApp.Persistence;
 using System.ComponentModel.DataAnnotations;
 
 namespace Excel.Loader.WebApp.Models
@@ -26,6 +27,30 @@ namespace Excel.Loader.WebApp.Models
                 return true;
             else
                 return false;
+        }
+
+        public static explicit operator JobsHistory(JobHistory model)
+        {
+            return new JobsHistory
+            {
+                JobName = model.JobName,
+                StepName = model.StepName,
+                LastRunDateTime = model.LastRunDateTime,
+                LastRunDuration = model.LastRunDuration.ToTimeSpan(),
+                PackageName = model.PackageName
+            };
+        }
+
+        public static explicit operator JobHistory(JobsHistory dal)
+        {
+            return new JobHistory
+            {
+                JobName = dal.JobName,
+                StepName = dal.StepName,
+                LastRunDateTime = dal.LastRunDateTime ?? default,
+                LastRunDuration = TimeOnly.FromDateTime(new DateTime(dal.LastRunDuration.Value.Ticks)),
+                PackageName = dal.PackageName
+            };
         }
     }
 }

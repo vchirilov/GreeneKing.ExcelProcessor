@@ -1,4 +1,5 @@
 ﻿using Excel.Loader.WebApp.Helpers;
+using Excel.Loader.WebApp.Persistence;
 using System.ComponentModel.DataAnnotations;
 
 namespace Excel.Loader.WebApp.Models
@@ -23,6 +24,28 @@ namespace Excel.Loader.WebApp.Models
                 return true;
             else
                 return false;
+        }
+
+        public static explicit operator Destination (Destinations model)
+        {
+            var dal = new Destination();
+            dal.Server = model.Server;
+            dal.DatabaseOrFilePath = model.DatabaseOrFilePath;
+            dal.DestinationType = model.DestinationType;
+            dal.PackageName = model.PackageName;
+    
+            return dal;
+        }
+
+        public static explicit operator Destinations (Destination dal)
+        {
+            var model = new Destinations();
+            model.Server = dal.Server;
+            model.DatabaseOrFilePath = dal.DatabaseOrFilePath;
+            model.DestinationType = dal.DestinationType;
+            model.PackageName = dal.PackageName;
+
+            return model;
         }
     }
 }

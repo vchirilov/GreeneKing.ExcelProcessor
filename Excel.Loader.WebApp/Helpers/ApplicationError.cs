@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Text;
 
 namespace Excel.Loader.WebApp.Helpers
 {
@@ -21,18 +22,23 @@ namespace Excel.Loader.WebApp.Helpers
             return new ApplicationError(className, methodName, text);
         }
 
-        public string CallerClass { get; set; }
-        public string CallerMethod { get; set; }
-        public string Text { get; set; }
+        public static ApplicationError Create(Exception exc)
+        {
+            return Create(exc.Message);
+        }
 
         public override string ToString()
         {
-            return $"{Text}".Truncate(250);
+            StringBuilder text = new ();
+            text.AppendLine($"Class:{CallerClass}");
+            text.AppendLine($"Method:{CallerMethod}");
+            text.AppendLine($"StackTrace:{StackTrace}");
+            text.AppendLine($"Error Message: {Text}");
+            return text.ToString();
         }
 
-        public string GetStackTrace()
-        {
-            return $"Class:{CallerClass}, Method:{CallerMethod}, StackTrace:{StackTrace}".Truncate(250);
-        }
+        private string CallerClass { get; set; }
+        private string CallerMethod { get; set; }
+        private string Text { get; set; }
     }
 }

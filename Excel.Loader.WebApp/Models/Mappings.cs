@@ -1,4 +1,5 @@
 ﻿using Excel.Loader.WebApp.Helpers;
+using Excel.Loader.WebApp.Persistence;
 using System.ComponentModel.DataAnnotations;
 
 namespace Excel.Loader.WebApp.Models
@@ -42,5 +43,40 @@ namespace Excel.Loader.WebApp.Models
             else
                 return false;
         }
+
+        public static explicit operator Mapping(Mappings model)
+        {
+            return new Mapping 
+            {
+                SourceServer = model.SourceServer,
+                SourceDatabase = model.SourceDatabase,
+                SourceTable = model.SourceTable,
+                SourceTableColumn = model.SourceTableColumn,
+                Transformation = model.Transformation,
+                DestinationServer = model.DestinationServer,
+                DestinationDatabase = model.DestinationDatabase,
+                DestinationTable = model.DestinationTable,
+                DestinationTableColumn = model.DestinationTableColumn,
+                PackageName = model.PackageName
+            };
+        }
+
+        public static explicit operator Mappings(Mapping dal)
+        {
+            return new Mappings 
+            {
+                SourceServer = dal.SourceServer,
+                SourceDatabase = dal.SourceDatabase,
+                SourceTable = dal.SourceTable,
+                SourceTableColumn = dal.SourceTableColumn,
+                Transformation = dal.Transformation,
+                DestinationServer = dal.DestinationServer,
+                DestinationDatabase = dal.DestinationDatabase,
+                DestinationTable = dal.DestinationTable,
+                DestinationTableColumn = dal.DestinationTableColumn,
+                PackageName = dal.PackageName
+            };
+        }
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Excel.Loader.WebApp.Helpers;
+using Excel.Loader.WebApp.Persistence;
 using System.ComponentModel.DataAnnotations;
 
 namespace Excel.Loader.WebApp.Models
@@ -27,5 +28,28 @@ namespace Excel.Loader.WebApp.Models
             else
                 return false;
         }
+
+        public static explicit operator Executable(Executables model)
+        {
+            var dal = new Executable();
+            dal.PackageName = model.PackageName;
+            dal.ExecutableName = model.ExecutableName;
+            dal.ExecutableType = model.ExecutableType;
+            dal.ExecutedOnServer = model.ExecutedOnServer;
+            dal.ExecutedOnDatabase = model.ExecutedOnDatabase;
+            return dal;
+        }
+
+        public static explicit operator Executables(Executable dal)
+        {
+            var model = new Executables();
+            model.PackageName = dal.PackageName;
+            model.ExecutableName = dal.ExecutableName;
+            model.ExecutableType = dal.ExecutableType;
+            model.ExecutedOnServer = dal.ExecutedOnServer;
+            model.ExecutedOnDatabase = dal.ExecutedOnDatabase;
+            return model;
+        }
+
     }
 }

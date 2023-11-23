@@ -1,4 +1,5 @@
 ﻿using Excel.Loader.WebApp.Helpers;
+using Excel.Loader.WebApp.Persistence;
 using System.ComponentModel.DataAnnotations;
 
 namespace Excel.Loader.WebApp.Models
@@ -24,5 +25,28 @@ namespace Excel.Loader.WebApp.Models
             else
                 return false;
         }
+
+        public static explicit operator Source(Sources model)
+        {
+           return new Source 
+           { 
+                Server = model.Server, 
+                DatabaseOrFilePath = model.DatabaseOrFilePath, 
+                SourceType = model.SourceType, 
+                PackageName = model.PackageName 
+            };
+        }
+
+        public static explicit operator Sources(Source dal)
+        {
+            return new Sources 
+            { 
+                Server = dal.Server, 
+                DatabaseOrFilePath = dal.DatabaseOrFilePath, 
+                SourceType = dal.SourceType, 
+                PackageName = dal.PackageName 
+            };
+        }
+
     }
 }

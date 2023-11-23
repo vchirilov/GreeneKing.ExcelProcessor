@@ -1,8 +1,10 @@
 ﻿using Excel.Loader.WebApp.Enums;
+using Excel.Loader.WebApp.Helpers;
 using Excel.Loader.WebApp.Models;
 using Excel.Loader.WebApp.Services;
 using Microsoft.AspNetCore.Mvc;
 using OfficeOpenXml;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering;
 using System.Diagnostics;
 using System.IO;
 
@@ -68,11 +70,17 @@ namespace Excel.Loader.WebApp.Controllers
 
                 return View("Index");
             }
-            catch (Exception)
+            catch (ApplicationError err)
             {
+                _logger.LogError(err.ToString());
+
                 return Error();
             }
-  
+            catch (Exception exc)
+            {
+                _logger.LogError(exc.Message);
+                return Error();
+            }
         } 
                 
         private async Task ProcessXlsFile(string packageName, IFormFile xlsFile, CancellationToken cancellationToken)

@@ -33,5 +33,34 @@ namespace Excel.Loader.WebApp.Models
             else
                 return false;
         }
+
+        public static explicit operator Persistence.SourceTransformation(SourceTransformation model)
+        {
+            return new Persistence.SourceTransformation 
+            {
+                Server = model.Server,
+                DatabaseOrFilePath = model.DatabaseOrFilePath,
+                TableName = model.TableName,
+                ColumnName = model.ColumnName,
+                Read = model.Read,
+                Write = model.Write,
+                PackageName = model.PackageName
+            };
+        }
+
+        public static explicit operator SourceTransformation(Persistence.SourceTransformation dal)
+        {
+            return new SourceTransformation 
+            {
+                Server = dal.Server,
+                DatabaseOrFilePath = dal.DatabaseOrFilePath,
+                TableName = dal.TableName,
+                ColumnName = dal.ColumnName,
+                Read = dal.Read,
+                Write = dal.Write,
+                PackageName = dal.PackageName
+            };
+        }
+
     }
 }

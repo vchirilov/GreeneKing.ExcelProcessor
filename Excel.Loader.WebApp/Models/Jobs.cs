@@ -1,4 +1,5 @@
 ﻿using Excel.Loader.WebApp.Helpers;
+using Excel.Loader.WebApp.Persistence;
 using System.ComponentModel.DataAnnotations;
 
 namespace Excel.Loader.WebApp.Models
@@ -24,5 +25,28 @@ namespace Excel.Loader.WebApp.Models
             else
                 return false;
         }
+
+        public static explicit operator Job(Jobs model)
+        {
+            return new Job 
+            {
+                JobName = model.JobName,
+                Frequency = model.Frequency,
+                LastUsed = model.LastUsed,
+                PackageName = model.PackageName
+            };
+        }
+
+        public static explicit operator Jobs(Job dal)
+        {
+            return new Jobs 
+            {
+                JobName = dal.JobName,
+                Frequency = dal.Frequency,
+                LastUsed = dal.LastUsed ?? default, 
+                PackageName = dal.PackageName
+            };
+        }
+
     }
 }

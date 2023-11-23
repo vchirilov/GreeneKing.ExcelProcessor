@@ -2,7 +2,6 @@
 using Excel.Loader.WebApp.Models;
 using OfficeOpenXml;
 using System.Globalization;
-using static Excel.Loader.WebApp.Helpers.Utility;
 
 namespace Excel.Loader.WebApp.Services
 {
