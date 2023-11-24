@@ -138,6 +138,12 @@ body {
     font-size: 17px;
 }
 
+.dashboard {
+    width: 20px; /* Set the desired width */
+    height: auto; /* Maintain aspect ratio */
+    margin-right: 8px
+}
+
 
 @media screen and (max-width: 720px) {
     .container {
