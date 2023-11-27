@@ -37,10 +37,10 @@ namespace Excel.Loader.WebApp.Services
         public async Task SavePackage(string packageName, Stream xlsStream)
         {            
             await ExtractDataFromXlsFile(xlsStream);
-            await SavePackage();
+            await PersistPackage();
         }
 
-        private async Task SavePackage()
+        private async Task PersistPackage()
         {
             await LoadPackage(); //Important to be the first statement as Package object is parent entity
             await LoadProjects();
@@ -55,6 +55,72 @@ namespace Excel.Loader.WebApp.Services
             await LoadJobHistory();
 
             await _dbContext.SaveChangesAsync();
+
+            async Task LoadPackage()
+            {
+                var dalPackages = dsPackages.Select(p => (Package)p);
+                await _dbContext.Packages.AddRangeAsync(dalPackages);
+            }
+
+            async Task LoadProjects()
+            {
+                var dalProjects = dsProjects.Select(p => (Project)p);
+                await _dbContext.Projects.AddRangeAsync(dalProjects);
+            }
+
+            async Task LoadParameters()
+            {
+                var dalPackageParameters = dsParameters.Select(p => (PackageParameter)p);
+                await _dbContext.PackageParameters.AddRangeAsync(dalPackageParameters);
+            }
+
+            async Task LoadSources()
+            {
+                var dalSources = dsSources.Select(s => (Source)s);
+                await _dbContext.Sources.AddRangeAsync(dalSources);
+            }
+
+            async Task LoadDestinations()
+            {
+                var dalDestinations = dsDestinations.Select(d => (Destination)d);
+                await _dbContext.Destinations.AddRangeAsync(dalDestinations);
+            }
+
+            async Task LoadSourceTransformations()
+            {
+                var dalSourceDestinations = dsSourceTransformations.Select(p => (Persistence.SourceTransformation)p);
+                await _dbContext.SourceTransformations.AddRangeAsync(dalSourceDestinations);
+            }
+
+            async Task LoadDestinationTransformations()
+            {
+                var dalDestinationTransformations = dsDestinationTransformation.Select(dt => (Persistence.DestinationTransformation)dt);
+                await _dbContext.DestinationTransformations.AddRangeAsync(dalDestinationTransformations);
+            }
+
+            async Task LoadMappings()
+            {
+                var dalMappings = dsMappings.Select(m => (Mapping)m);
+                await _dbContext.Mappings.AddRangeAsync(dalMappings);
+            }
+
+            async Task LoadExecutables()
+            {
+                var dalExecutables = dsExecutables.Select(exe => (Executable)exe);
+                await _dbContext.Executables.AddRangeAsync(dalExecutables);
+            }
+
+            async Task LoadJobs()
+            {
+                var dalJobs = dsJobs.Select(j => (Job)j);
+                await _dbContext.Jobs.AddRangeAsync(dalJobs);
+            }
+
+            async Task LoadJobHistory()
+            {
+                var dalJobHistory = dsJobHistory.Select(j => (JobsHistory)j);
+                await _dbContext.JobsHistories.AddRangeAsync(dalJobHistory);
+            }
         }
 
         public async Task DeletePackage(string packageName)
@@ -81,11 +147,11 @@ namespace Excel.Loader.WebApp.Services
             var sources = await GetSources(packageName);
             var destinations = await GetDestinations(packageName);
             var sourceTransformations = await GetSourceDestinations(packageName);
+            var destinationTransformations = await GetDestinationTransformation(packageName);
+            var mappings = await GetMappings(packageName);
 
 
             var stream = new MemoryStream();
-
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
             using (ExcelPackage xlsPackage = new(stream))
             {
@@ -107,89 +173,68 @@ namespace Excel.Loader.WebApp.Services
                 var sourceTransformationWorksheet = xlsPackage.Workbook.Worksheets.Add(nameof(Models.SourceTransformation));
                 sourceTransformationWorksheet.Cells.LoadFromCollection(sourceTransformations, true);
 
+                var destinationTransformationWorksheet = xlsPackage.Workbook.Worksheets.Add(nameof(Models.DestinationTransformation));
+                destinationTransformationWorksheet.Cells.LoadFromCollection(destinationTransformations, true);
+
+                var mappingsWorksheet = xlsPackage.Workbook.Worksheets.Add(nameof(Mappings));
+                mappingsWorksheet.Cells.LoadFromCollection(mappings, true);
+
                 xlsPackage.Save();
             }
             stream.Position = 0;
 
             return stream;
+
+            async Task<List<Projects>> GetProjects(string packageName)
+            {
+                var dbProjects = await _dbContext.Projects.Where(p => p.PackageName == packageName).ToListAsync();
+                return dbProjects.Select(p => (Projects)p).ToList();
+            }
+
+            async Task<List<Packages>> GetPackages(string packageName)
+            {
+                var dalPackages = await _dbContext.Packages.Where(p => p.PackageName == packageName).ToListAsync();
+                return dalPackages.Select(p => (Packages)p).ToList();
+            }
+
+            async Task<List<Parameters>> GetParameters(string packageName)
+            {
+                var dalParameters = await _dbContext.PackageParameters.Where(p => p.PackageName == packageName).ToListAsync();
+                return dalParameters.Select(p => (Parameters)p).ToList();
+            }
+
+            async Task<List<Sources>> GetSources(string packageName)
+            {
+                var dbSources = await _dbContext.Sources.Where(p => p.PackageName == packageName).ToListAsync();
+                return dbSources.Select(p => (Sources)p).ToList();
+            }
+
+            async Task<List<Destinations>> GetDestinations(string packageName)
+            {
+                var dalDestinations = await _dbContext.Destinations.Where(p => p.PackageName == packageName).ToListAsync();
+                return dalDestinations.Select(d => (Destinations)d).ToList();
+            }
+
+            async Task<List<Models.SourceTransformation>> GetSourceDestinations(string packageName)
+            {
+                var dbSourceDestinations = await _dbContext.SourceTransformations.Where(p => p.PackageName == packageName).ToListAsync();
+                return dbSourceDestinations.Select(p => (Models.SourceTransformation)p).ToList();
+            }
+
+            async Task<List<Models.DestinationTransformation>> GetDestinationTransformation(string packageName)
+            {
+                var dalDestinationTransformation = await _dbContext.DestinationTransformations.Where(p => p.PackageName == packageName).ToListAsync();
+                return dalDestinationTransformation.Select(p => (Models.DestinationTransformation)p).ToList();
+            }
+
+            async Task<List<Models.Mappings>> GetMappings(string packageName)
+            {
+                var dalMappings = await _dbContext.Mappings.Where(p => p.PackageName == packageName).ToListAsync();
+                return dalMappings.Select(p => (Mappings)p).ToList();
+            }
         }
 
-        private Task LoadPackage()
-        {
-            var dalPackages = dsPackages.Select(p => (Package)p);
-            _dbContext.Packages.AddRange(dalPackages);
-            return Task.CompletedTask;
-        }
-
-        private Task LoadProjects()
-        {
-            var dalProjects = dsProjects.Select(p => (Project)p);
-            _dbContext.Projects.AddRange(dalProjects);
-            return Task.CompletedTask;
-        }
-
-        private Task LoadParameters()
-        {
-            var dalPackageParameters = dsParameters.Select(p => (PackageParameter)p);
-            _dbContext.PackageParameters.AddRange(dalPackageParameters);
-            return Task.CompletedTask;
-        }
-
-        private Task LoadSources()
-        {
-            var dalSources = dsSources.Select(s => (Source)s);
-            _dbContext.Sources.AddRange(dalSources);
-            return Task.CompletedTask;
-        }
-
-        private Task LoadDestinations()
-        {
-            var dalDestinations = dsDestinations.Select(d => (Destination)d);
-            _dbContext.Destinations.AddRange(dalDestinations);
-            return Task.CompletedTask;
-        }
-
-        private Task LoadSourceTransformations()
-        {
-            var dalSourceDestinations = dsSourceTransformations.Select(p => (Persistence.SourceTransformation)p);
-            _dbContext.SourceTransformations.AddRange(dalSourceDestinations);
-            return Task.CompletedTask;
-        }
-
-        private Task LoadDestinationTransformations()
-        {
-            var dalDestinationTransformations = dsDestinationTransformation.Select(dt => (Persistence.DestinationTransformation)dt);
-            _dbContext.DestinationTransformations.AddRange(dalDestinationTransformations);
-            return Task.CompletedTask;
-        }
-
-        private Task LoadMappings()
-        {
-            var dalMappings = dsMappings.Select(m => (Mapping)m);
-            _dbContext.Mappings.AddRange(dalMappings);
-            return Task.CompletedTask;
-        }
-
-        private Task LoadExecutables()
-        {
-            var dalExecutables = dsExecutables.Select(exe => (Executable)exe );
-            _dbContext.Executables.AddRange(dalExecutables);
-            return Task.CompletedTask;
-        }
-
-        private Task LoadJobs()
-        {
-            var dalJobs = dsJobs.Select(j => (Job)j);
-            _dbContext.Jobs.AddRange(dalJobs);
-            return Task.CompletedTask;
-        }
-
-        private Task LoadJobHistory()
-        {
-            var dalJobHistory = dsJobHistory.Select(j => (JobsHistory)j);
-            _dbContext.JobsHistories.AddRange(dalJobHistory);
-            return Task.CompletedTask;
-        }
+        
 
         private Task ExtractDataFromXlsFile(Stream xlsStream)
         {
@@ -245,67 +290,6 @@ namespace Excel.Loader.WebApp.Services
             {
                 throw ApplicationError.Create(exc);
             }
-        }
-        
-        private async Task<List<Projects>> GetProjects(string packageName)
-        {
-            var dbProjects = await _dbContext.Projects.Where(p => p.PackageName == packageName).ToListAsync();
-            return dbProjects.Select(p => (Projects)p).ToList();
-        }
-
-        private async Task<List<Packages>> GetPackages(string packageName)
-        {
-            var dalPackages = await _dbContext.Packages.Where(p => p.PackageName == packageName).ToListAsync();
-            return dalPackages.Select(p => (Packages)p).ToList();
-        }
-
-        private async Task<List<Parameters>> GetParameters(string packageName)
-        {
-            var dbParameters = await _dbContext.PackageParameters.Where(p => p.PackageName == packageName).ToListAsync();
-
-            return dbParameters.Select(p => new Parameters 
-            { 
-                PackageName = p.PackageName, 
-                ParameterName = p.ParameterName, 
-                ParameterType = p.ParameterType }
-            ).ToList();
-        }
-
-        private async Task<List<Sources>> GetSources(string packageName)
-        {
-            var dbSources = await _dbContext.Sources.Where(p => p.PackageName == packageName).ToListAsync();
-
-            return dbSources.Select(p => new Sources
-            {
-                Server = p.Server,
-                DatabaseOrFilePath = p.DatabaseOrFilePath,
-                SourceType = p.SourceType,
-                PackageName = p.PackageName
-            }
-            ).ToList();
-        }
-
-        private async Task<List<Destinations>> GetDestinations(string packageName)
-        {
-            var dalDestinations = await _dbContext.Destinations.Where(p => p.PackageName == packageName).ToListAsync();
-            return dalDestinations.Select(d => (Destinations)d).ToList();
-        }
-
-        private async Task<List<Models.SourceTransformation>> GetSourceDestinations(string packageName)
-        {
-            var dbSourceDestinations = await _dbContext.SourceTransformations.Where(p => p.PackageName == packageName).ToListAsync();
-
-            return dbSourceDestinations.Select(p => new Models.SourceTransformation
-            {
-                Server = p.Server,
-                DatabaseOrFilePath = p.DatabaseOrFilePath,
-                TableName = p.TableName,
-                ColumnName = p.ColumnName,
-                Read = p.Read,
-                Write = p.Write,
-                PackageName = packageName                
-            }
-            ).ToList();
-        }
+        }        
     }
 }

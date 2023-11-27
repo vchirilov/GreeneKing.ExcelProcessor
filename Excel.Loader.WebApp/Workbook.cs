@@ -20,8 +20,6 @@ namespace Excel.Loader.WebApp
 
         private void Initialize(Stream xlsStream, string[] sheets)
         {
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-
             package = new ExcelPackage(xlsStream);
 
             foreach (var sheet in sheets)

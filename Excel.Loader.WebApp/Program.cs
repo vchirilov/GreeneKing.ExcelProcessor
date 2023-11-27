@@ -2,6 +2,7 @@ using Excel.Loader.WebApp.Options;
 using Excel.Loader.WebApp.Persistence;
 using Excel.Loader.WebApp.Services;
 using Microsoft.EntityFrameworkCore;
+using OfficeOpenXml;
 
 namespace Excel.Loader.WebApp
 {
@@ -47,6 +48,8 @@ namespace Excel.Loader.WebApp
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
             app.Run();
         }
