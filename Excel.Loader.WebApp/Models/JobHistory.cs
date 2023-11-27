@@ -1,5 +1,6 @@
 ﻿using Excel.Loader.WebApp.Helpers;
 using Excel.Loader.WebApp.Persistence;
+using OfficeOpenXml.Attributes;
 using System.ComponentModel.DataAnnotations;
 
 namespace Excel.Loader.WebApp.Models
@@ -11,6 +12,7 @@ namespace Excel.Loader.WebApp.Models
         [Order(2)]
         public string StepName { get; set; }
         [Order(3)]
+        [EpplusTableColumn(NumberFormat = "MM/dd/yyyy HH:mm:ss")]
         public DateTime LastRunDateTime { get; set; } = default;
         [Order(4)]
         public TimeOnly LastRunDuration { get; set; }  = default;
