@@ -149,7 +149,9 @@ namespace Excel.Loader.WebApp.Services
             var sourceTransformations = await GetSourceDestinations(packageName);
             var destinationTransformations = await GetDestinationTransformation(packageName);
             var mappings = await GetMappings(packageName);
-
+            var executables = await GetExecutables(packageName);
+            var jobs = await GetJobs(packageName);
+            var jobHistories = await GetJobHistory(packageName);
 
             var stream = new MemoryStream();
 
@@ -178,6 +180,15 @@ namespace Excel.Loader.WebApp.Services
 
                 var mappingsWorksheet = xlsPackage.Workbook.Worksheets.Add(nameof(Mappings));
                 mappingsWorksheet.Cells.LoadFromCollection(mappings, true);
+
+                var executablesWorksheet = xlsPackage.Workbook.Worksheets.Add(nameof(Executables));
+                executablesWorksheet.Cells.LoadFromCollection(executables, true);
+
+                var jobsWorksheet = xlsPackage.Workbook.Worksheets.Add(nameof(Jobs));
+                jobsWorksheet.Cells.LoadFromCollection(jobs, true);
+
+                var jobHistoriesWorksheet = xlsPackage.Workbook.Worksheets.Add(nameof(JobHistory));
+                jobHistoriesWorksheet.Cells.LoadFromCollection(jobHistories, true);
 
                 xlsPackage.Save();
             }
@@ -227,10 +238,28 @@ namespace Excel.Loader.WebApp.Services
                 return dalDestinationTransformation.Select(p => (Models.DestinationTransformation)p).ToList();
             }
 
-            async Task<List<Models.Mappings>> GetMappings(string packageName)
+            async Task<List<Mappings>> GetMappings(string packageName)
             {
                 var dalMappings = await _dbContext.Mappings.Where(p => p.PackageName == packageName).ToListAsync();
                 return dalMappings.Select(p => (Mappings)p).ToList();
+            }
+
+            async Task<List<Executables>> GetExecutables(string packageName)
+            {
+                var dalExecutables = await _dbContext.Executables.Where(p => p.PackageName == packageName).ToListAsync();
+                return dalExecutables.Select(p => (Executables)p).ToList();
+            }
+
+            async Task<List<Jobs>> GetJobs(string packageName)
+            {
+                var dalJobs = await _dbContext.Jobs.Where(p => p.PackageName == packageName).ToListAsync();
+                return dalJobs.Select(p => (Jobs)p).ToList();
+            }
+
+            async Task<List<JobHistory>> GetJobHistory(string packageName)
+            {
+                var dalJobHistory = await _dbContext.JobsHistories.Where(p => p.PackageName == packageName).ToListAsync();
+                return dalJobHistory.Select(p => (JobHistory)p).ToList();
             }
         }
 
