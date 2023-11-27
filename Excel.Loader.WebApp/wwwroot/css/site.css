@@ -139,9 +139,10 @@ body {
 }
 
 .dashboard {
-    width: 20px; /* Set the desired width */
-    height: auto; /* Maintain aspect ratio */
-    margin-right: 8px
+    width: 25px;
+    height: 25px; 
+    margin-right: 5px;
+    margin-bottom: 5px
 }
 
 
