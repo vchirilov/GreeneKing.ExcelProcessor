@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@inject IWebHostEnvironment webHostEnvironment;
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -12,15 +14,15 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Greene King: SSIS Package Upload Tool</a> 
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">SSIS Package Decomposition Document Uploader Tool</a> 
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
 
                         <li class="nav-item menu-buttons">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index"><img class="dashboard" src="/images/upload.png">Upload Package</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index"><img class="dashboard" src="/images/upload.png">Upload Package Document</a>
                         </li>
                         <li class="nav-item menu-buttons">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="DownloadXlsFile"><img class="dashboard" src="/images/download.png">Download Package</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="DownloadXlsFile"><img class="dashboard" src="/images/download.png">Download Package Document</a>
                         </li>
                         <li class="nav-item menu-buttons">
                             <a target="_blank" class="nav-link text-dark" href="http://51.12.52.30/Reports/report/Greene%20King/Package%20Decomposition/"><img class="dashboard" src="/images/dashboard.png">Reporting Dashboard</a>
@@ -38,7 +40,7 @@
 
     <footer class="border-top footer text-muted">
         <div>
-            &copy; 2023 - Greene King Files Upload Tool - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            Environment: @webHostEnvironment.EnvironmentName
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

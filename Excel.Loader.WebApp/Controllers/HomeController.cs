@@ -15,16 +15,19 @@ namespace Excel.Loader.WebApp.Controllers
         private readonly IExcelFileService _excelFileService;
         private readonly IImageService _imageService;
         private readonly ILogger<HomeController> _logger;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public HomeController(ILogger<HomeController> logger, IExcelFileService excelFileService, IImageService imageService)
+        public HomeController(ILogger<HomeController> logger, IExcelFileService excelFileService, IImageService imageService, IWebHostEnvironment webHostEnvironment)
         {
             _logger = logger;
             _excelFileService = excelFileService;
             _imageService = imageService;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         public IActionResult Index()
         {
+            
             return View();
         }
 
@@ -36,6 +39,7 @@ namespace Excel.Loader.WebApp.Controllers
         [HttpGet]
         public IActionResult DownloadXlsFile()
         {
+            ViewBag.Environment = _webHostEnvironment.EnvironmentName;
             return View();
         }
 
@@ -56,6 +60,12 @@ namespace Excel.Loader.WebApp.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        public IActionResult UploadFiles()
+        {
+            ViewBag.Environment = _webHostEnvironment.EnvironmentName;
+            return View("Index");
+        }
+
         public async Task<IActionResult> UploadFiles(FileUploadModel model, CancellationToken cancellationToken)
         {
             try
@@ -66,7 +76,7 @@ namespace Excel.Loader.WebApp.Controllers
                 await ProcessImageFile(model.PackageName, FlowType.ControlFlow, model.UploadControlFlowImages, cancellationToken);
                 await ProcessImageFile(model.PackageName, FlowType.DataFlow, model.UploadDataFlowImages, cancellationToken);
 
-                ViewBag.PackageName += string.Format("<b>{0}</b> package has been processed and saved into database with success.<br/>", model.PackageName);
+                ViewBag.PackageName += string.Format("<b>{0}</b> package has been processed and saved into database with success.<br/>", model.PackageName);               
 
                 return View("Index");
             }
