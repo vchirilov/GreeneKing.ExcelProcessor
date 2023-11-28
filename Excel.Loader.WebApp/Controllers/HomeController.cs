@@ -26,8 +26,7 @@ namespace Excel.Loader.WebApp.Controllers
         }
 
         public IActionResult Index()
-        {
-            
+        {            
             return View();
         }
 
@@ -60,23 +59,19 @@ namespace Excel.Loader.WebApp.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public IActionResult UploadFiles()
-        {
-            ViewBag.Environment = _webHostEnvironment.EnvironmentName;
-            return View("Index");
-        }
-
         public async Task<IActionResult> UploadFiles(FileUploadModel model, CancellationToken cancellationToken)
         {
             try
             {
-                await DeletePackage(model.PackageName);
+                if (ModelState.IsValid)
+                {
+                    await DeletePackage(model.PackageName);
+                    await ProcessXlsFile(model.PackageName, model.UploadXlsFile!, cancellationToken);
+                    await ProcessImageFile(model.PackageName, FlowType.ControlFlow, model.UploadControlFlowImages, cancellationToken);
+                    await ProcessImageFile(model.PackageName, FlowType.DataFlow, model.UploadDataFlowImages, cancellationToken);
 
-                await ProcessXlsFile(model.PackageName, model.UploadXlsFile!, cancellationToken);
-                await ProcessImageFile(model.PackageName, FlowType.ControlFlow, model.UploadControlFlowImages, cancellationToken);
-                await ProcessImageFile(model.PackageName, FlowType.DataFlow, model.UploadDataFlowImages, cancellationToken);
-
-                ViewBag.PackageName += string.Format("<b>{0}</b> package has been processed and saved into database with success.<br/>", model.PackageName);               
+                    ViewBag.PackageName += string.Format("<b>{0}</b> package has been processed and saved into database with success.<br/>", model.PackageName);
+                }
 
                 return View("Index");
             }
@@ -95,33 +90,30 @@ namespace Excel.Loader.WebApp.Controllers
                 
         private async Task ProcessXlsFile(string packageName, IFormFile xlsFile, CancellationToken cancellationToken)
         {
-            if (ModelState.IsValid)
+            try
             {
-                try
+                if (xlsFile == null || xlsFile.Length == 0)
                 {
-                    if (xlsFile == null || xlsFile.Length == 0)
-                    {
-                        await Task.FromResult(false);
-                    }
-
-                    // Check the file extension. Excel files typically have .xlsx or .xls extensions
-                    if (!xlsFile.FileName.EndsWith(".xlsx") && !xlsFile.FileName.EndsWith(".xls"))
-                    {
-                        await Task.FromResult(false);
-                    }
-
-                    var packages = new List<Packages>();
-
-                    using var stream = new MemoryStream();                    
-                    await xlsFile.CopyToAsync(stream, cancellationToken);
-                    await _excelFileService.SavePackage(packageName, stream);
+                    await Task.FromResult(false);
                 }
-                catch (Exception ex)
+
+                // Check the file extension. Excel files typically have .xlsx or .xls extensions
+                if (!xlsFile.FileName.EndsWith(".xlsx") && !xlsFile.FileName.EndsWith(".xls"))
                 {
-                    _logger.LogError(ex.Message);
-                    throw;
+                    await Task.FromResult(false);
                 }
-            }            
+
+                var packages = new List<Packages>();
+
+                using var stream = new MemoryStream();
+                await xlsFile.CopyToAsync(stream, cancellationToken);
+                await _excelFileService.SavePackage(packageName, stream);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                throw;
+            }
         }
 
         private async Task ProcessImageFile(string packageName, FlowType flowType, List<IFormFile> imageFiles, CancellationToken cancellationToken)
