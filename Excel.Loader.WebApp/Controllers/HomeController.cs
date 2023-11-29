@@ -54,9 +54,11 @@ namespace Excel.Loader.WebApp.Controllers
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public IActionResult Error(string errorMessage)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var errorModel = new ErrorViewModel { ErrorMessage = errorMessage };
+
+            return View(errorModel);
         }
 
         public async Task<IActionResult> UploadFiles(FileUploadModel model, CancellationToken cancellationToken)
@@ -79,12 +81,14 @@ namespace Excel.Loader.WebApp.Controllers
             {
                 _logger.LogError(err.ToString());
 
-                return Error();
+                return RedirectToAction("Error", new { errorMessage = err.Text });
+
             }
             catch (Exception exc)
             {
                 _logger.LogError(exc.Message);
-                return Error();
+
+                return RedirectToAction("Error");
             }
         } 
                 
@@ -94,13 +98,13 @@ namespace Excel.Loader.WebApp.Controllers
             {
                 if (xlsFile == null || xlsFile.Length == 0)
                 {
-                    await Task.FromResult(false);
+                    throw ApplicationError.Create("Excel file is empty");
                 }
 
                 // Check the file extension. Excel files typically have .xlsx or .xls extensions
                 if (!xlsFile.FileName.EndsWith(".xlsx") && !xlsFile.FileName.EndsWith(".xls"))
                 {
-                    await Task.FromResult(false);
+                    throw ApplicationError.Create("Uploaded file is not an Excel file.");
                 }
 
                 var packages = new List<Packages>();

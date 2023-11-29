@@ -3,6 +3,15 @@
     ViewData["Title"] = "Error";
 }
 
-<h1>Error.</h1>
-
-<h3>An error occurred while processing your request. <br/>Look in log files for error details...</h3>
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <h1>Handled error.</h1>
+    <p>
+        <h3>A handled error occurred while processing your request. </h3>
+        <strong>Error Message: @Model.ErrorMessage</strong>
+    </p>
+}else
+{
+    <h1>Unandled error.</h1>
+    <h3>Unhandled error occurred while processing your request. <br/>Look into log files for error details...</h3>
+}

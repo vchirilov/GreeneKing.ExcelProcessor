@@ -36,9 +36,10 @@ namespace Excel.Loader.WebApp.Helpers
             text.AppendLine($"Error Message: {Text}");
             return text.ToString();
         }
-
+        
+        public string Text { get; set; }
         private string CallerClass { get; set; }
         private string CallerMethod { get; set; }
-        private string Text { get; set; }
+        
     }
 }
