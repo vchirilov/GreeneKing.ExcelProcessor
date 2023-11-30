@@ -128,7 +128,7 @@ namespace Excel.Loader.WebApp.Controllers
 
                 if (imageFiles == null || imageFiles.Count == 0)
                 {
-                    await Task.FromResult(false);
+                    throw ApplicationError.Create("Image file is empty");
                 }
 
                 foreach (var imageFile in imageFiles)
