@@ -41,7 +41,7 @@ public partial class GreeneKingContext : DbContext
 
     public virtual DbSet<SourceTransformation> SourceTransformations { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<ControlFlow>(entity =>
         {
